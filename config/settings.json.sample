@@ -1,0 +1,16 @@
+{
+  "general": {
+    "localDomainExtension": ".development",
+    "elasticsearchPort": "9200",
+    "databaseLocation": "/Users/{username}/Databases"
+  },
+  "ssh": {
+    "keyLocation": "",
+    "passphrase": ""
+  },
+  "magentoBackend": {
+    "adminUsername": "admin",
+    "adminPassword": "Password1!",
+    "adminEmailAddress": "info@example.com"
+  }
+}
