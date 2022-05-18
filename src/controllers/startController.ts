@@ -23,11 +23,11 @@ class StartController extends MainController {
 
             // Show final message when done with all tasks
             if (this.config.finalMessages.importDomain.length > 0) {
-                success(`Magento is successfully imported to localhost. ${this.config.finalMessages.importDomain} is now available.`);
-                info(`You can log in to the Magento backend with username: ${configFile.magentoBackend.adminUsername} and password: ${configFile.magentoBackend.adminPassword}`);
+                success(`Shopware is successfully imported to localhost. ${this.config.finalMessages.importDomain} is now available.`);
+                info(`You can log in to the Shopware backend with username: ${configFile.magentoBackend.adminUsername} and password: ${configFile.magentoBackend.adminPassword}`);
                 info(`For each website there is a dummy customer account available. Email: ${configFile.magentoBackend.adminEmailAddress}, Password: ${configFile.magentoBackend.adminPassword}`);
             } else if (this.config.finalMessages.magentoDatabaseLocation.length > 0) {
-                success(`Downloaded Magento database to: ${this.config.finalMessages.magentoDatabaseLocation}`);
+                success(`Downloaded Shopware database to: ${this.config.finalMessages.magentoDatabaseLocation}`);
                 // Show wordpress download message if downloaded
                 if (this.config.finalMessages.wordpressDatabaseLocation.length > 0 && this.config.settings.wordpressDownload && this.config.settings.wordpressDownload == 'yes' && this.config.settings.wordpressImport != 'yes') {
                     success(`Downloaded Wordpress database to: ${this.config.finalMessages.wordpressDatabaseLocation}`);
@@ -77,7 +77,7 @@ class StartController extends MainController {
         let downloadTask = await new DownloadTask();
         await downloadTask.configure(this.list, this.config, this.ssh);
 
-        // Import Magento if possible
+        // Import Shopware if possible
         if (this.config.settings.import && this.config.settings.import == "yes") {
             // Build import list
             let importTask = await new ImportTask();

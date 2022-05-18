@@ -24,12 +24,12 @@ class StartController extends mainController_1.default {
                 yield this.list.run();
                 // Show final message when done with all tasks
                 if (this.config.finalMessages.importDomain.length > 0) {
-                    console_1.success(`Magento is successfully imported to localhost. ${this.config.finalMessages.importDomain} is now available.`);
-                    console_1.info(`You can log in to the Magento backend with username: ${settings_json_1.default.magentoBackend.adminUsername} and password: ${settings_json_1.default.magentoBackend.adminPassword}`);
+                    console_1.success(`Shopware is successfully imported to localhost. ${this.config.finalMessages.importDomain} is now available.`);
+                    console_1.info(`You can log in to the Shopware backend with username: ${settings_json_1.default.magentoBackend.adminUsername} and password: ${settings_json_1.default.magentoBackend.adminPassword}`);
                     console_1.info(`For each website there is a dummy customer account available. Email: ${settings_json_1.default.magentoBackend.adminEmailAddress}, Password: ${settings_json_1.default.magentoBackend.adminPassword}`);
                 }
                 else if (this.config.finalMessages.magentoDatabaseLocation.length > 0) {
-                    console_1.success(`Downloaded Magento database to: ${this.config.finalMessages.magentoDatabaseLocation}`);
+                    console_1.success(`Downloaded Shopware database to: ${this.config.finalMessages.magentoDatabaseLocation}`);
                     // Show wordpress download message if downloaded
                     if (this.config.finalMessages.wordpressDatabaseLocation.length > 0 && this.config.settings.wordpressDownload && this.config.settings.wordpressDownload == 'yes' && this.config.settings.wordpressImport != 'yes') {
                         console_1.success(`Downloaded Wordpress database to: ${this.config.finalMessages.wordpressDatabaseLocation}`);
@@ -70,7 +70,7 @@ class StartController extends mainController_1.default {
             // Build up download list
             let downloadTask = yield new downloadTask_1.default();
             yield downloadTask.configure(this.list, this.config, this.ssh);
-            // Import Magento if possible
+            // Import Shopware if possible
             if (this.config.settings.import && this.config.settings.import == "yes") {
                 // Build import list
                 let importTask = yield new importTask_1.default();

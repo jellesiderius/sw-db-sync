@@ -73,8 +73,8 @@ const consoleCommand = (cmd: string, skipErrors: boolean) => {
     });
 }
 
-// Navigate to Magento root folder
-const sshNavigateToMagentoRootCommand = (command: string, config: any) => {
+// Navigate to Shopware root folder
+const sshNavigateToShopwareRootCommand = (command: string, config: any) => {
     // See if external project folder is filled in, otherwise try default path
     if (config.databases.databaseData.externalProjectFolder && config.databases.databaseData.externalProjectFolder.length > 0) {
         return `cd ${config.databases.databaseData.externalProjectFolder} > /dev/null 2>&1; ${command}`;
@@ -88,16 +88,16 @@ const sshNavigateToMagentoRootCommand = (command: string, config: any) => {
 }
 
 // Execute a PHP script in the root of magento
-const sshMagentoRootFolderPhpCommand = (command: string, config: any) => {
-    return sshNavigateToMagentoRootCommand(config.serverVariables.externalPhpPath + ' ' + command, config);
+const sshShopwareRootFolderPhpCommand = (command: string, config: any) => {
+    return sshNavigateToShopwareRootCommand(config.serverVariables.externalPhpPath + ' ' + command, config);
 }
 
 // Execute a PHP script in the root of magento
-const sshMagentoRootFolderMagerunCommand = (command: string, config: any) => {
-    return sshMagentoRootFolderPhpCommand(config.serverVariables.magerunFile + ' ' + command, config);
+const sshShopwareRootFolderMagerunCommand = (command: string, config: any) => {
+    return sshShopwareRootFolderPhpCommand(config.serverVariables.magerunFile + ' ' + command, config);
 }
 
-const localhostMagentoRootExec = (command: string, config: any, skipErrors: boolean = false) => {
+const localhostShopwareRootExec = (command: string, config: any, skipErrors: boolean = false) => {
     return consoleCommand(`cd ${config.settings.currentFolder}; ${command};`, skipErrors);
 }
 
@@ -141,10 +141,10 @@ export {
     emptyLine,
     clearConsole,
     consoleCommand,
-    sshNavigateToMagentoRootCommand,
-    sshMagentoRootFolderPhpCommand,
-    sshMagentoRootFolderMagerunCommand,
-    localhostMagentoRootExec,
+    sshNavigateToShopwareRootCommand,
+    sshShopwareRootFolderPhpCommand,
+    sshShopwareRootFolderMagerunCommand,
+    localhostShopwareRootExec,
     localhostRsyncDownloadCommand,
     wordpressReplaces
 }

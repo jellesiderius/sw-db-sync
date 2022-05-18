@@ -1,4 +1,4 @@
-import { localhostMagentoRootExec } from '../utils/console';
+import { localhostShopwareRootExec } from '../utils/console';
 import { Listr } from 'listr2';
 
 class ImportTask {
@@ -13,7 +13,7 @@ class ImportTask {
     addTasks = async (list: any, config: any) => {
         list.add(
             {
-                title: 'Import Magento database to localhost',
+                title: 'Import Shopware database to localhost',
                 task: (ctx: any, task: any): Listr =>
                 task.newListr(
                     this.importTasks
@@ -26,13 +26,13 @@ class ImportTask {
                 title: 'Importing database',
                 task: async (): Promise<void> => {
                     // Drop database
-                    await localhostMagentoRootExec(`magerun2 db:drop -f -q`, config);
+                    await localhostShopwareRootExec(`magerun2 db:drop -f -q`, config);
                     // Create database
-                    await localhostMagentoRootExec(`magerun2 db:create -q`, config);
+                    await localhostShopwareRootExec(`magerun2 db:create -q`, config);
                     // Import SQL file to database
-                    await localhostMagentoRootExec(`magerun2 db:import ${config.serverVariables.databaseName}.sql --force --skip-authorization-entry-creation -q`, config);
+                    await localhostShopwareRootExec(`magerun2 db:import ${config.serverVariables.databaseName}.sql --force --skip-authorization-entry-creation -q`, config);
                     // Add default admin authorization rules (Fix for missing auth roles)
-                    await localhostMagentoRootExec(`magerun2 db:add-default-authorization-entries -q`, config);
+                    await localhostShopwareRootExec(`magerun2 db:add-default-authorization-entries -q`, config);
                 }
             }
         );
@@ -42,7 +42,7 @@ class ImportTask {
                 title: 'Cleaning up',
                 task: async (): Promise<void> => {
                     // Remove local SQL file
-                    await localhostMagentoRootExec('rm ' + config.serverVariables.databaseName + '.sql', config);
+                    await localhostShopwareRootExec('rm ' + config.serverVariables.databaseName + '.sql', config);
                 }
             }
         );

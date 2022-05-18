@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.wordpressReplaces = exports.localhostRsyncDownloadCommand = exports.localhostMagentoRootExec = exports.sshMagentoRootFolderMagerunCommand = exports.sshMagentoRootFolderPhpCommand = exports.sshNavigateToMagentoRootCommand = exports.consoleCommand = exports.clearConsole = exports.emptyLine = exports.url = exports.error = exports.warning = exports.success = exports.info = exports.verbose = void 0;
+exports.wordpressReplaces = exports.localhostRsyncDownloadCommand = exports.localhostShopwareRootExec = exports.sshShopwareRootFolderMagerunCommand = exports.sshShopwareRootFolderPhpCommand = exports.sshNavigateToShopwareRootCommand = exports.consoleCommand = exports.clearConsole = exports.emptyLine = exports.url = exports.error = exports.warning = exports.success = exports.info = exports.verbose = void 0;
 const tslib_1 = require("tslib");
 const kleur_1 = tslib_1.__importDefault(require("kleur"));
 const readline = tslib_1.__importStar(require("readline"));
@@ -71,8 +71,8 @@ const consoleCommand = (cmd, skipErrors) => {
     });
 };
 exports.consoleCommand = consoleCommand;
-// Navigate to Magento root folder
-const sshNavigateToMagentoRootCommand = (command, config) => {
+// Navigate to Shopware root folder
+const sshNavigateToShopwareRootCommand = (command, config) => {
     // See if external project folder is filled in, otherwise try default path
     if (config.databases.databaseData.externalProjectFolder && config.databases.databaseData.externalProjectFolder.length > 0) {
         return `cd ${config.databases.databaseData.externalProjectFolder} > /dev/null 2>&1; ${command}`;
@@ -85,21 +85,21 @@ const sshNavigateToMagentoRootCommand = (command, config) => {
             'cd current > /dev/null 2>&1;' + command;
     }
 };
-exports.sshNavigateToMagentoRootCommand = sshNavigateToMagentoRootCommand;
+exports.sshNavigateToShopwareRootCommand = sshNavigateToShopwareRootCommand;
 // Execute a PHP script in the root of magento
-const sshMagentoRootFolderPhpCommand = (command, config) => {
-    return sshNavigateToMagentoRootCommand(config.serverVariables.externalPhpPath + ' ' + command, config);
+const sshShopwareRootFolderPhpCommand = (command, config) => {
+    return sshNavigateToShopwareRootCommand(config.serverVariables.externalPhpPath + ' ' + command, config);
 };
-exports.sshMagentoRootFolderPhpCommand = sshMagentoRootFolderPhpCommand;
+exports.sshShopwareRootFolderPhpCommand = sshShopwareRootFolderPhpCommand;
 // Execute a PHP script in the root of magento
-const sshMagentoRootFolderMagerunCommand = (command, config) => {
-    return sshMagentoRootFolderPhpCommand(config.serverVariables.magerunFile + ' ' + command, config);
+const sshShopwareRootFolderMagerunCommand = (command, config) => {
+    return sshShopwareRootFolderPhpCommand(config.serverVariables.magerunFile + ' ' + command, config);
 };
-exports.sshMagentoRootFolderMagerunCommand = sshMagentoRootFolderMagerunCommand;
-const localhostMagentoRootExec = (command, config, skipErrors = false) => {
+exports.sshShopwareRootFolderMagerunCommand = sshShopwareRootFolderMagerunCommand;
+const localhostShopwareRootExec = (command, config, skipErrors = false) => {
     return consoleCommand(`cd ${config.settings.currentFolder}; ${command};`, skipErrors);
 };
-exports.localhostMagentoRootExec = localhostMagentoRootExec;
+exports.localhostShopwareRootExec = localhostShopwareRootExec;
 const localhostRsyncDownloadCommand = (source, destination, config) => {
     let sshCommand;
     config.databases.databaseData.port ? sshCommand = `ssh -p ${config.databases.databaseData.port} -o StrictHostKeyChecking=no` : sshCommand = `ssh -o StrictHostKeyChecking=no`;

@@ -21,7 +21,7 @@ class SelectDatabaseQuestion {
 
             // Collects database data based on key
             this.databasesModel.collectDatabaseData(databaseKey, config.databases.databaseType);
-            
+
             // Set database data in config
             config.databases.databaseData = this.databasesModel.databaseData;
 
@@ -40,9 +40,9 @@ class SelectDatabaseQuestion {
                 config.settings.magentoLocalhostDomainName = config.databases.databaseData.localProjectUrl;
             }
 
-            // Check if current is magento. This will be used to determine if we can import Magento
+            // Check if current is magento. This will be used to determine if we can import Shopware
             if (fs.existsSync(config.settings.currentFolder + '/vendor/magento') || fs.existsSync(config.settings.currentFolder + '/app/Mage.php')) {
-                config.settings.currentFolderIsMagento = true;
+                config.settings.currentFolderIsShopware = true;
             }
 
             // Check if current folder has Wordpress. This will be used to determine if we can import Wordpress

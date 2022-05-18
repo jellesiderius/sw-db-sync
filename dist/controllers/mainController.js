@@ -40,7 +40,7 @@ class MainController {
                 'import': 'no',
                 'wordpressImport': 'no',
                 'wordpressDownload': 'no',
-                'currentFolderIsMagento': false,
+                'currentFolderIsShopware': false,
                 'currentFolderhasWordpress': false
             },
             'finalMessages': {

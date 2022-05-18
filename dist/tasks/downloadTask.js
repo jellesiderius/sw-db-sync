@@ -33,7 +33,7 @@ class DownloadTask {
                 title: 'Retrieving server settings',
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
                     // Retrieve settings from server to use
-                    yield ssh.execCommand(console_1.sshNavigateToMagentoRootCommand('pwd; which php;', config)).then((result) => {
+                    yield ssh.execCommand(console_1.sshNavigateToShopwareRootCommand('pwd; which php;', config)).then((result) => {
                         if (result) {
                             let serverValues = result.stdout.split("\n");
                             config.serverVariables.shopwareRoot = serverValues[0];

@@ -1,4 +1,4 @@
-import {localhostRsyncDownloadCommand, sshMagentoRootFolderMagerunCommand, sshNavigateToMagentoRootCommand, wordpressReplaces } from '../utils/console';
+import {localhostRsyncDownloadCommand, sshShopwareRootFolderMagerunCommand, sshNavigateToShopwareRootCommand, wordpressReplaces } from '../utils/console';
 import { Listr } from 'listr2';
 // @ts-ignore
 import staticConfigFile from '../../config/static-settings.json'
@@ -46,7 +46,7 @@ class DownloadTask {
                 title: 'Retrieving server settings',
                 task: async (): Promise<void> => {
                     // Retrieve settings from server to use
-                    await ssh.execCommand(sshNavigateToMagentoRootCommand('pwd; which php;', config)).then((result: any) => {
+                    await ssh.execCommand(sshNavigateToShopwareRootCommand('pwd; which php;', config)).then((result: any) => {
                         if (result) {
                             let serverValues = result.stdout.split("\n");
                             config.serverVariables.shopwareRoot = serverValues[0];

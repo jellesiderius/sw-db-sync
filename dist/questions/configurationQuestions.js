@@ -15,7 +15,7 @@ class ConfigurationQuestions {
                 .then((answers) => {
                 // Set stripped setting
                 config.settings.strip = answers.strip;
-                // Set import setting for Magento
+                // Set import setting for Shopware
                 config.settings.import = answers.import;
                 // Set wordpress download value
                 config.settings.wordpressDownload = answers.wordpressDownload;
@@ -50,19 +50,19 @@ class ConfigurationQuestions {
                 type: 'list',
                 name: 'strip',
                 default: 'stripped',
-                message: 'Does the Magento database need to be stripped for development?',
+                message: 'Does the Shopware database need to be stripped for development?',
                 choices: ['stripped', 'keep customer data', 'full'],
                 validate: (input) => {
                     return input !== '';
                 }
             });
-            // Only push questions if Magento project is found
-            if (config.settings.currentFolderIsMagento) {
+            // Only push questions if Shopware project is found
+            if (config.settings.currentFolderIsShopware) {
                 this.questionsOne.push({
                     type: 'list',
                     name: 'import',
                     default: 'yes',
-                    message: 'Import Magento database?',
+                    message: 'Import Shopware database?',
                     choices: ['yes', 'no'],
                     validate: (input) => {
                         return false;
