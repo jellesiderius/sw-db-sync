@@ -13,7 +13,7 @@ class VersionCheck {
         };
         // versions
         this.getToolVersions = () => tslib_1.__awaiter(this, void 0, void 0, function* () {
-            yield fetch('https://raw.githubusercontent.com/jellesiderius/sw-db-sync/master/package.json')
+            yield fetch('https://raw.githubusercontent.com/jellesiderius/sw-db-sync/master/package.json?token=GHSAT0AAAAAABNRNLDIK4GBEJDNTR6XTTOMYUEYY4A')
                 .then((res) => res.json())
                 .then((json) => this.config.latestVersion = json.version);
         });
