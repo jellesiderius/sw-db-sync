@@ -11,7 +11,7 @@ class SelfUpdateController {
     private versionCheck = new VersionCheck();
 
     executeStart = async (serviceName: string | undefined): Promise<boolean> => {
-        await this.versionCheck.getToolVersions();
+        //await this.versionCheck.getToolVersions();
 
         let self = this;
         let config = {

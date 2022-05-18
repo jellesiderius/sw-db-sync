@@ -53,26 +53,6 @@ class ChecksTask {
                 }
             );
 
-            // Check Magerun 2 version
-            this.checkTasks.push(
-                {
-                    title: 'Checking Magerun2 version',
-                    task: async (ctx: any, task: any): Promise<boolean> => {
-                         // Check the local installed Magerun2 version before we continue and import the database
-                         let installedMagerun2Version = await consoleCommand('magerun2 -V', false);
-                         // @ts-ignore
-                         installedMagerun2Version = installedMagerun2Version.split(' ')[1];
-
-                         // @ts-ignore
-                        if (installedMagerun2Version < config.requirements.magerun2Version) {
-                            throw new Error(`Your current Magerun2 version is too low. Magerun version ${config.requirements.magerun2Version} is required`);
-                        }
-
-                        return true;
-                    }
-                }
-            );
-
             if (config.settings.import && config.settings.import == 'yes') {
                 // Check if target folder exists before downloading
                 this.checkTasks.push(

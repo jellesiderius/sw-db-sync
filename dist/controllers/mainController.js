@@ -24,9 +24,8 @@ class MainController {
                 'magerun2Version': '4.7.0'
             },
             'serverVariables': {
-                'magentoVersion': 2,
                 'externalPhpPath': '',
-                'magentoRoot': '',
+                'shopwareRoot': '',
                 'magerunFile': '',
                 'databaseName': ''
             },

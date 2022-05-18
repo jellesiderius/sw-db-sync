@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const fs = tslib_1.__importStar(require("fs"));
-const console_1 = require("../utils/console");
 const settings_json_1 = tslib_1.__importDefault(require("../../config/settings.json"));
 class ChecksTask {
     constructor() {
@@ -38,21 +37,6 @@ class ChecksTask {
                         if (!settings_json_1.default.general.elasticsearchPort || settings_json_1.default.general.elasticsearchPort && settings_json_1.default.general.elasticsearchPort.length == 0) {
                             throw new Error('ElasticSearch port is missing in config/settings.json');
                         }
-                    })
-                });
-                // Check Magerun 2 version
-                this.checkTasks.push({
-                    title: 'Checking Magerun2 version',
-                    task: (ctx, task) => tslib_1.__awaiter(this, void 0, void 0, function* () {
-                        // Check the local installed Magerun2 version before we continue and import the database
-                        let installedMagerun2Version = yield console_1.consoleCommand('magerun2 -V', false);
-                        // @ts-ignore
-                        installedMagerun2Version = installedMagerun2Version.split(' ')[1];
-                        // @ts-ignore
-                        if (installedMagerun2Version < config.requirements.magerun2Version) {
-                            throw new Error(`Your current Magerun2 version is too low. Magerun version ${config.requirements.magerun2Version} is required`);
-                        }
-                        return true;
                     })
                 });
                 if (config.settings.import && config.settings.import == 'yes') {

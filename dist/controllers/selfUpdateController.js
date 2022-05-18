@@ -11,7 +11,7 @@ class SelfUpdateController {
     constructor() {
         this.versionCheck = new versionCheck_1.default();
         this.executeStart = (serviceName) => tslib_1.__awaiter(this, void 0, void 0, function* () {
-            yield this.versionCheck.getToolVersions();
+            //await this.versionCheck.getToolVersions();
             let self = this;
             let config = {
                 'npmPath': '',
