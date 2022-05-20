@@ -13,7 +13,6 @@ get_installed_path_1.getInstalledPath('sw-db-sync').then((path) => tslib_1.__awa
     let npmPath = path;
     let missingFiles = false;
     let requiredFiles = [
-        'config/static-settings.json',
         'config/settings.json',
         'config/databases/staging.json',
         'config/databases/production.json'

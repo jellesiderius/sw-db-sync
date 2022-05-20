@@ -34,9 +34,6 @@ class ChecksTask {
                         if (!settings_json_1.default.general.localDomainExtension || settings_json_1.default.general.localDomainExtension && settings_json_1.default.general.localDomainExtension.length == 0) {
                             throw new Error('Local domain extension is missing in config/settings.json');
                         }
-                        if (!settings_json_1.default.general.elasticsearchPort || settings_json_1.default.general.elasticsearchPort && settings_json_1.default.general.elasticsearchPort.length == 0) {
-                            throw new Error('ElasticSearch port is missing in config/settings.json');
-                        }
                     })
                 });
                 if (config.settings.import && config.settings.import == 'yes') {

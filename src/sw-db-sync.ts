@@ -11,7 +11,6 @@ getInstalledPath('sw-db-sync').then(async (path: any) => {
     let npmPath = path;
     let missingFiles = false;
     let requiredFiles = [
-        'config/static-settings.json',
         'config/settings.json',
         'config/databases/staging.json',
         'config/databases/production.json'

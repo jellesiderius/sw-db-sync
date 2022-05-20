@@ -45,10 +45,6 @@ class ChecksTask {
                         if (!configFile.general.localDomainExtension || configFile.general.localDomainExtension && configFile.general.localDomainExtension.length == 0) {
                             throw new Error('Local domain extension is missing in config/settings.json');
                         }
-
-                        if (!configFile.general.elasticsearchPort || configFile.general.elasticsearchPort && configFile.general.elasticsearchPort.length == 0) {
-                            throw new Error('ElasticSearch port is missing in config/settings.json');
-                        }
                     }
                 }
             );

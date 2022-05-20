@@ -1,8 +1,6 @@
 import {localhostRsyncDownloadCommand, sshNavigateToShopwareRootCommand, extractDatabaseDetails } from '../utils/console';
 import { Listr } from 'listr2';
 // @ts-ignore
-import staticConfigFile from '../../config/static-settings.json'
-import configFile from "../../config/settings.json";
 
 class DownloadTask {
     private downloadTasks = [];

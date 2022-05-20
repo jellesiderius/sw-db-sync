@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const console_1 = require("../utils/console");
+// @ts-ignore
 class DownloadTask {
     constructor() {
         this.downloadTasks = [];

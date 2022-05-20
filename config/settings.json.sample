@@ -1,7 +1,6 @@
 {
   "general": {
     "localDomainExtension": ".development",
-    "elasticsearchPort": "9200",
     "databaseLocation": "/Users/{username}/Databases"
   },
   "ssh": {
