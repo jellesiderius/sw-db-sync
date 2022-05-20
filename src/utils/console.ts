@@ -115,20 +115,23 @@ const localhostRsyncDownloadCommand = (source: string, destination: string, conf
     return consoleCommand(totalRsyncCommand, false)
 }
 
-const wordpressReplaces = (entry: string, text: string) => {
-    var replacedText = entry.replace(text, ''),
-        replacedText = replacedText.replace(`,`, ''),
-        replacedText = replacedText.replace(`DEFINE`, ''),
-        replacedText = replacedText.replace(`define`, ''),
-        replacedText = replacedText.replace(`(`, ''),
-        replacedText = replacedText.replace(` `, ''),
-        replacedText = replacedText.replace(`;`, ''),
-        replacedText = replacedText.replace(`$`, ''),
-        replacedText = replacedText.replace(`)`, ''),
-        replacedText = replacedText.replace(`=`, ''),
-        replacedText = replacedText.replace("'", '').replace(/'/g,'');
+const extractDatabaseDetails = (string: string) => {
+    var details = string,
+        details = details.replace('DATABASE_URL="mysql', '').replace('//', '').replace('"', '').replace('@', ':').replace('/', ':'),
+        details = details.split(':'),
+        details = details.filter((a) => a);
 
-    return replacedText.trim();
+    var rex = new RegExp("\\\\");
+
+    let detailsObject = {
+        username: details[0],
+        password: details[1].replace('$', '\\$').replace(/"/g, '\''),
+        host: details[2],
+        port: details[3],
+        database: details[4]
+    };
+
+    return detailsObject;
 }
 
 export {
@@ -146,5 +149,5 @@ export {
     sshShopwareRootFolderMagerunCommand,
     localhostShopwareRootExec,
     localhostRsyncDownloadCommand,
-    wordpressReplaces
+    extractDatabaseDetails
 }

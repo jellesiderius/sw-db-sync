@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.wordpressReplaces = exports.localhostRsyncDownloadCommand = exports.localhostShopwareRootExec = exports.sshShopwareRootFolderMagerunCommand = exports.sshShopwareRootFolderPhpCommand = exports.sshNavigateToShopwareRootCommand = exports.consoleCommand = exports.clearConsole = exports.emptyLine = exports.url = exports.error = exports.warning = exports.success = exports.info = exports.verbose = void 0;
+exports.extractDatabaseDetails = exports.localhostRsyncDownloadCommand = exports.localhostShopwareRootExec = exports.sshShopwareRootFolderMagerunCommand = exports.sshShopwareRootFolderPhpCommand = exports.sshNavigateToShopwareRootCommand = exports.consoleCommand = exports.clearConsole = exports.emptyLine = exports.url = exports.error = exports.warning = exports.success = exports.info = exports.verbose = void 0;
 const tslib_1 = require("tslib");
 const kleur_1 = tslib_1.__importDefault(require("kleur"));
 const readline = tslib_1.__importStar(require("readline"));
@@ -111,9 +111,17 @@ const localhostRsyncDownloadCommand = (source, destination, config) => {
     return consoleCommand(totalRsyncCommand, false);
 };
 exports.localhostRsyncDownloadCommand = localhostRsyncDownloadCommand;
-const wordpressReplaces = (entry, text) => {
-    var replacedText = entry.replace(text, ''), replacedText = replacedText.replace(`,`, ''), replacedText = replacedText.replace(`DEFINE`, ''), replacedText = replacedText.replace(`define`, ''), replacedText = replacedText.replace(`(`, ''), replacedText = replacedText.replace(` `, ''), replacedText = replacedText.replace(`;`, ''), replacedText = replacedText.replace(`$`, ''), replacedText = replacedText.replace(`)`, ''), replacedText = replacedText.replace(`=`, ''), replacedText = replacedText.replace("'", '').replace(/'/g, '');
-    return replacedText.trim();
+const extractDatabaseDetails = (string) => {
+    var details = string, details = details.replace('DATABASE_URL="mysql', '').replace('//', '').replace('"', '').replace('@', ':').replace('/', ':'), details = details.split(':'), details = details.filter((a) => a);
+    var rex = new RegExp("\\\\");
+    let detailsObject = {
+        username: details[0],
+        password: details[1].replace('$', '\\$').replace(/"/g, '\''),
+        host: details[2],
+        port: details[3],
+        database: details[4]
+    };
+    return detailsObject;
 };
-exports.wordpressReplaces = wordpressReplaces;
+exports.extractDatabaseDetails = extractDatabaseDetails;
 //# sourceMappingURL=console.js.map

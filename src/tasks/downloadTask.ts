@@ -1,4 +1,4 @@
-import {localhostRsyncDownloadCommand, sshShopwareRootFolderMagerunCommand, sshNavigateToShopwareRootCommand, wordpressReplaces } from '../utils/console';
+import {localhostRsyncDownloadCommand, sshShopwareRootFolderMagerunCommand, sshNavigateToShopwareRootCommand, extractDatabaseDetails } from '../utils/console';
 import { Listr } from 'listr2';
 // @ts-ignore
 import staticConfigFile from '../../config/static-settings.json'
@@ -59,6 +59,88 @@ class DownloadTask {
                     if (config.databases.databaseData.externalPhpPath && config.databases.databaseData.externalPhpPath.length > 0) {
                         config.serverVariables.externalPhpPath = config.databases.databaseData.externalPhpPath;
                     }
+                }
+            }
+        );
+
+        this.downloadTasks.push(
+            {
+                title: 'Downloading Shopware6 DB Dump File to server',
+                task: async (): Promise<void> => {
+                    // Download Magerun to the server
+                    await ssh.execCommand(sshNavigateToShopwareRootCommand('curl -O https://raw.githubusercontent.com/jellesiderius/shopware6-database-dump/main/shopware6-database-dump.sh', config));
+                }
+            },
+        );
+
+        this.downloadTasks.push(
+            {
+                title: 'Dumping Shopware database and moving it to server root (' + config.settings.strip + ')',
+                task: async (): Promise<void> => {
+                    var username = '',
+                        password = '',
+                        host = '',
+                        port = '',
+                        database = '';
+
+                    // Retrieve database name
+                    await ssh.execCommand(sshNavigateToShopwareRootCommand('cat .env | grep "DATABASE_URL="', config)).then((result: any) => {
+                        if (result) {
+                            var resultValues = result.stdout,
+                                databaseDetails = extractDatabaseDetails(resultValues);
+
+                            username = databaseDetails.username;
+                            password = databaseDetails.password;
+                            host = databaseDetails.host;
+                            port = databaseDetails.port;
+                            database = databaseDetails.database;
+
+                            config.settings.databaseFileName = database + '.gz';
+                        }
+                    });
+
+                    // Dump database, database name will be "shopware6-database-dump.gz"
+                    var dumpCommand = `sh shopware6-database-dump.sh -d ${database} -u ${username} -pa ${password} --host ${host} -p ${port}; mv ${config.settings.databaseFileName} ~`;
+                    await ssh.execCommand(sshNavigateToShopwareRootCommand(dumpCommand, config));
+                }
+            }
+        );
+
+        this.downloadTasks.push(
+            {
+                title: 'Downloading Shopware 6 database to localhost',
+                task: async (): Promise<void> => {
+                    // Download file and place it on localhost
+                    let localDatabaseFolderLocation = config.customConfig.localDatabaseFolderLocation;
+                    let localDatabaseLocation = localDatabaseFolderLocation + `/${config.settings.databaseFileName}`;
+
+                    if (config.settings.rsyncInstalled) {
+                        await localhostRsyncDownloadCommand(`~/${config.settings.databaseFileName}`, `${localDatabaseFolderLocation}`, config);
+                    } else {
+                        await ssh.getFile(localDatabaseLocation, config.settings.databaseFileName).then(function (Contents: any) {
+                        }, function (error: any) {
+                            throw new Error(error)
+                        });
+                    }
+
+                    // Set final message with Shopware 6 DB location
+                    config.finalMessages.magentoDatabaseLocation = localDatabaseLocation;
+                }
+            }
+        );
+
+        this.downloadTasks.push(
+            {
+                title: 'Cleaning up and closing SSH connection',
+                task: async (): Promise<void> => {
+                    // Remove the Shopware 6 database file on the server
+                    await ssh.execCommand(`rm ${config.settings.databaseFileName}`);
+
+                    // Remove database dump file and close connection to SSH
+                    await ssh.execCommand(sshNavigateToShopwareRootCommand('rm shopware6-database-dump.sh', config));
+
+                    // Close the SSH connection
+                    await ssh.dispose();
                 }
             }
         );

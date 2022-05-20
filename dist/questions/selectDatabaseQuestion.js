@@ -36,14 +36,8 @@ class SelectDatabaseQuestion {
                     config.settings.magentoLocalhostDomainName = config.databases.databaseData.localProjectUrl;
                 }
                 // Check if current is magento. This will be used to determine if we can import Shopware
-                if (fs.existsSync(config.settings.currentFolder + '/vendor/magento') || fs.existsSync(config.settings.currentFolder + '/app/Mage.php')) {
+                if (fs.existsSync(config.settings.currentFolder + '/vendor/shopware/core') || fs.existsSync(config.settings.currentFolder + '/public/index.php')) {
                     config.settings.currentFolderIsShopware = true;
-                }
-                // Check if current folder has Wordpress. This will be used to determine if we can import Wordpress
-                if (fs.existsSync(config.settings.currentFolder + '/wp/wp-config.php')
-                    || fs.existsSync(config.settings.currentFolder + '/blog/wp-config.php')
-                    || fs.existsSync(config.settings.currentFolder + '/wordpress/wp-config.php')) {
-                    config.settings.currentFolderhasWordpress = true;
                 }
             })
                 .catch((err) => {

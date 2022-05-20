@@ -77,12 +77,12 @@ class StartController extends MainController {
         let downloadTask = await new DownloadTask();
         await downloadTask.configure(this.list, this.config, this.ssh);
 
-        // Import Shopware if possible
+        /*// Import Shopware if possible
         if (this.config.settings.import && this.config.settings.import == "yes") {
             // Build import list
             let importTask = await new ImportTask();
             await importTask.configure(this.list, this.config);
-        }
+        }*/
     }
 }
 

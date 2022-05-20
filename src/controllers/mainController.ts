@@ -30,6 +30,7 @@ class MainController {
         'settings': {
             'currentFolder': '',
             'currentFolderName': '',
+            'databaseFileName': '',
             'strip': '',
             'syncImages': false,
             'magentoLocalhostDomainName': '',
@@ -50,13 +51,6 @@ class MainController {
             'databasesList': null,
             'databaseType': null,
             'databaseData': null
-        },
-        'wordpressConfig': {
-            'prefix': '',
-            'username': '',
-            'password': '',
-            'host': '',
-            'database': ''
         }
     };
     public list = new Listr(

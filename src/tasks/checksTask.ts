@@ -57,14 +57,14 @@ class ChecksTask {
                 // Check if target folder exists before downloading
                 this.checkTasks.push(
                     {
-                        title: 'Checking if env.php file exists',
+                        title: 'Checking if .env file exists',
                         task: async (): Promise<Boolean> => {
-                            let envFileLocation = config.settings.currentFolder + '/app/etc/env.php';
+                            let envFileLocation = config.settings.currentFolder + '/.env';
                             if (fs.existsSync(envFileLocation)) {
                                 return true;
                             }
 
-                            throw new Error(`env.php is missing, make sure ${envFileLocation} exists.`);
+                            throw new Error(`.env is missing, make sure ${envFileLocation} exists.`);
                         }
                     }
                 );

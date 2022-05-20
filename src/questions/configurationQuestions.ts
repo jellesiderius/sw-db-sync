@@ -29,24 +29,6 @@ class ConfigurationQuestions {
             .catch((err: { message: any; }) => {
                 error(`Something went wrong: ${err.message}`)
             });
-
-        if (config.settings.wordpressDownload && config.settings.wordpressDownload == 'yes') {
-            // Set import configs
-            await inquirer
-                .prompt(this.questionsTwo)
-                .then((answers) => {
-                    // Set import setting for Wordpress
-                    config.settings.wordpressImport = answers.wordpressImport
-
-                    // Change location of database download depending on answer
-                    if (config.settings.wordpressImport == 'yes') {
-                        config.customConfig.localDatabaseFolderLocation = config.settings.currentFolder;
-                    }
-                })
-                .catch((err: { message: any; }) => {
-                    error(`Something went wrong: ${err.message}`)
-                });
-        }
     }
 
     // Add questions
@@ -78,36 +60,6 @@ class ConfigurationQuestions {
                     },
                 }
             );
-        }
-
-        if (config.databases.databaseData.wordpress) {
-            this.questionsOne.push(
-                {
-                    type: 'list',
-                    name: 'wordpressDownload',
-                    default: 'yes',
-                    message: 'Download wordpress database?',
-                    choices: ['yes', 'no'],
-                    validate: (input: string) => {
-                        return input !== ''
-                    }
-                }
-            );
-
-            if (config.settings.currentFolderhasWordpress) {
-                this.questionsTwo.push(
-                    {
-                        type: 'list',
-                        name: 'wordpressImport',
-                        default: 'yes',
-                        message: 'Import Wordpress database? [EXPERIMENTAL]',
-                        choices: ['yes', 'no'],
-                        validate: (input: string) => {
-                            return false;
-                        },
-                    }
-                );
-            }
         }
     }
 }
