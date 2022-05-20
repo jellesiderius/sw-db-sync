@@ -33,6 +33,7 @@ class MainController {
                 'currentFolder': '',
                 'currentFolderName': '',
                 'databaseFileName': '',
+                'databaseFullPath': '',
                 'strip': '',
                 'syncImages': false,
                 'magentoLocalhostDomainName': '',

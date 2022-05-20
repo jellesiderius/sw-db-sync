@@ -95,12 +95,12 @@ class DownloadTask {
                             port = databaseDetails.port;
                             database = databaseDetails.database;
 
-                            config.settings.databaseFileName = database + '.gz';
+                            config.settings.databaseFileName = database;
                         }
                     });
 
-                    // Dump database, database name will be "shopware6-database-dump.gz"
-                    var dumpCommand = `sh shopware6-database-dump.sh -d ${database} -u ${username} -pa ${password} --host ${host} -p ${port}; mv ${config.settings.databaseFileName} ~`;
+                    // Dump database, database name will be "shopware6-database-dump.sql"
+                    var dumpCommand = `sh shopware6-database-dump.sh -d ${database} -u ${username} -pa ${password} --host ${host} -p ${port}; mv ${config.settings.databaseFileName}.sql ~`;
                     await ssh.execCommand(sshNavigateToShopwareRootCommand(dumpCommand, config));
                 }
             }
@@ -112,12 +112,12 @@ class DownloadTask {
                 task: async (): Promise<void> => {
                     // Download file and place it on localhost
                     let localDatabaseFolderLocation = config.customConfig.localDatabaseFolderLocation;
-                    let localDatabaseLocation = localDatabaseFolderLocation + `/${config.settings.databaseFileName}`;
+                    let localDatabaseLocation = localDatabaseFolderLocation + `/${config.settings.databaseFileName}.sql`;
 
                     if (config.settings.rsyncInstalled) {
-                        await localhostRsyncDownloadCommand(`~/${config.settings.databaseFileName}`, `${localDatabaseFolderLocation}`, config);
+                        await localhostRsyncDownloadCommand(`~/${config.settings.databaseFileName}.sql`, `${localDatabaseFolderLocation}`, config);
                     } else {
-                        await ssh.getFile(localDatabaseLocation, config.settings.databaseFileName).then(function (Contents: any) {
+                        await ssh.getFile(localDatabaseLocation, config.settings.databaseFileName + '.sql').then(function (Contents: any) {
                         }, function (error: any) {
                             throw new Error(error)
                         });
@@ -125,6 +125,7 @@ class DownloadTask {
 
                     // Set final message with Shopware 6 DB location
                     config.finalMessages.magentoDatabaseLocation = localDatabaseLocation;
+                    config.settings.databaseFullPath = localDatabaseFolderLocation;
                 }
             }
         );
@@ -134,7 +135,7 @@ class DownloadTask {
                 title: 'Cleaning up and closing SSH connection',
                 task: async (): Promise<void> => {
                     // Remove the Shopware 6 database file on the server
-                    await ssh.execCommand(`rm ${config.settings.databaseFileName}`);
+                    await ssh.execCommand(`rm ${config.settings.databaseFileName}.sql`);
 
                     // Remove database dump file and close connection to SSH
                     await ssh.execCommand(sshNavigateToShopwareRootCommand('rm shopware6-database-dump.sh', config));
