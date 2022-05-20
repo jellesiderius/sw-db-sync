@@ -8,6 +8,7 @@ import ConfigurationQuestions from "../questions/configurationQuestions";
 import ChecksTask from "../tasks/checksTask";
 import DownloadTask from "../tasks/downloadTask";
 import ImportTask from "../tasks/importTask";
+import ShopwareConfigureTask from "../tasks/shopwareConfigureTask";
 
 class StartController extends MainController {
     executeStart = async (): Promise<void> => {
@@ -82,6 +83,10 @@ class StartController extends MainController {
             // Build import list
             let importTask = await new ImportTask();
             await importTask.configure(this.list, this.config);
+
+            // Build Magento configure list
+            let shopwareConfigureTask = await new ShopwareConfigureTask();
+            await shopwareConfigureTask.configure(this.list, this.config);
         }
     }
 }

@@ -39,6 +39,8 @@ class ImportTask {
                     yield console_1.localhostShopwareRootExec(`mysqladmin -u ${config.localhost.username} --password=${config.localhost.password} create ${config.localhost.database} -f`, config, true);
                     // Import database
                     yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} --force < ${config.settings.databaseFullPath}/${config.settings.databaseFileName}.sql`, config, true);
+                    // bin/console sales-channel:update:domain shopware-test.development
+                    // bin/console theme:compile
                 })
             });
         });

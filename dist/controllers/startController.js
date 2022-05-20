@@ -11,6 +11,7 @@ const configurationQuestions_1 = tslib_1.__importDefault(require("../questions/c
 const checksTask_1 = tslib_1.__importDefault(require("../tasks/checksTask"));
 const downloadTask_1 = tslib_1.__importDefault(require("../tasks/downloadTask"));
 const importTask_1 = tslib_1.__importDefault(require("../tasks/importTask"));
+const shopwareConfigureTask_1 = tslib_1.__importDefault(require("../tasks/shopwareConfigureTask"));
 class StartController extends mainController_1.default {
     constructor() {
         super(...arguments);
@@ -75,6 +76,9 @@ class StartController extends mainController_1.default {
                 // Build import list
                 let importTask = yield new importTask_1.default();
                 yield importTask.configure(this.list, this.config);
+                // Build Magento configure list
+                let shopwareConfigureTask = yield new shopwareConfigureTask_1.default();
+                yield shopwareConfigureTask.configure(this.list, this.config);
             }
         });
     }

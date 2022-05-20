@@ -1,5 +1,6 @@
 import {extractDatabaseDetails, localhostShopwareRootExec} from '../utils/console';
 import { Listr } from 'listr2';
+import {sed} from 'shelljs'
 
 class ImportTask {
     private importTasks = [];
@@ -52,6 +53,9 @@ class ImportTask {
 
                     // Import database
                     await localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} --force < ${config.settings.databaseFullPath}/${config.settings.databaseFileName}.sql`, config, true);
+
+                    // bin/console sales-channel:update:domain shopware-test.development
+                    // bin/console theme:compile
                 }
             }
         );
