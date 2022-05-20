@@ -105,7 +105,6 @@ class DownloadTask {
                         dumpCommand = `sh shopware6-database-dump.sh -d ${database} -u ${username} -pa ${password} --host ${host} -p ${port}`
                     }
 
-
                     await ssh.execCommand(sshNavigateToShopwareRootCommand(`${dumpCommand}; mv ${config.settings.databaseFileName}.sql ~`, config));
                 }
             }

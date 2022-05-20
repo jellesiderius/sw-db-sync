@@ -10,6 +10,7 @@ const selectDatabaseQuestion_1 = tslib_1.__importDefault(require("../questions/s
 const configurationQuestions_1 = tslib_1.__importDefault(require("../questions/configurationQuestions"));
 const checksTask_1 = tslib_1.__importDefault(require("../tasks/checksTask"));
 const downloadTask_1 = tslib_1.__importDefault(require("../tasks/downloadTask"));
+const importTask_1 = tslib_1.__importDefault(require("../tasks/importTask"));
 class StartController extends mainController_1.default {
     constructor() {
         super(...arguments);
@@ -69,12 +70,12 @@ class StartController extends mainController_1.default {
             // Build up download list
             let downloadTask = yield new downloadTask_1.default();
             yield downloadTask.configure(this.list, this.config, this.ssh);
-            /*// Import Shopware if possible
+            // Import Shopware if possible
             if (this.config.settings.import && this.config.settings.import == "yes") {
                 // Build import list
-                let importTask = await new ImportTask();
-                await importTask.configure(this.list, this.config);
-            }*/
+                let importTask = yield new importTask_1.default();
+                yield importTask.configure(this.list, this.config);
+            }
         });
     }
 }

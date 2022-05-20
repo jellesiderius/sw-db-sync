@@ -1,4 +1,4 @@
-import { localhostShopwareRootExec } from '../utils/console';
+import {extractDatabaseDetails, localhostShopwareRootExec} from '../utils/console';
 import { Listr } from 'listr2';
 
 class ImportTask {
@@ -23,26 +23,35 @@ class ImportTask {
 
         this.importTasks.push(
             {
-                title: 'Importing database',
+                title: 'Getting database info',
                 task: async (): Promise<void> => {
-                    // Drop database
-                    await localhostShopwareRootExec(`magerun2 db:drop -f -q`, config);
-                    // Create database
-                    await localhostShopwareRootExec(`magerun2 db:create -q`, config);
-                    // Import SQL file to database
-                    await localhostShopwareRootExec(`magerun2 db:import ${config.serverVariables.databaseName}.sql --force --skip-authorization-entry-creation -q`, config);
-                    // Add default admin authorization rules (Fix for missing auth roles)
-                    await localhostShopwareRootExec(`magerun2 db:add-default-authorization-entries -q`, config);
+                    await localhostShopwareRootExec(`cat .env | grep "DATABASE_URL="`, config).then((result: any) => {
+                        if (result) {
+                            var databaseDetails = extractDatabaseDetails(result);
+
+                            config.localhost.username = databaseDetails.username;
+                            config.localhost.password = databaseDetails.password;
+                            config.localhost.host = databaseDetails.host;
+                            config.localhost.port = databaseDetails.port;
+                            config.localhost.database = databaseDetails.database;
+                        }
+                    });
                 }
             }
         );
 
         this.importTasks.push(
             {
-                title: 'Cleaning up',
+                title: 'Importing database to localhost',
                 task: async (): Promise<void> => {
-                    // Remove local SQL file
-                    await localhostShopwareRootExec('rm ' + config.serverVariables.databaseName + '.sql', config);
+                    // Drop database
+                    await localhostShopwareRootExec(`mysqladmin -u ${config.localhost.username} --password=${config.localhost.password} drop ${config.localhost.database} -f`, config, true);
+
+                    // Create database
+                    await localhostShopwareRootExec(`mysqladmin -u ${config.localhost.username} --password=${config.localhost.password} create ${config.localhost.database} -f`, config, true);
+
+                    // Import database
+                    await localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} --force < ${config.settings.databaseFullPath}/${config.settings.databaseFileName}.sql`, config, true);
                 }
             }
         );

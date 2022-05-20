@@ -113,13 +113,12 @@ const localhostRsyncDownloadCommand = (source, destination, config) => {
 exports.localhostRsyncDownloadCommand = localhostRsyncDownloadCommand;
 const extractDatabaseDetails = (string) => {
     var details = string, details = details.replace('DATABASE_URL="mysql', '').replace('//', '').replace('"', '').replace('@', ':').replace('/', ':'), details = details.split(':'), details = details.filter((a) => a);
-    var rex = new RegExp("\\\\");
     let detailsObject = {
-        username: details[0],
-        password: details[1].replace('$', '\\$').replace(/"/g, '\''),
-        host: details[2],
-        port: details[3],
-        database: details[4]
+        username: details[0].trim(),
+        password: details[1].replace('$', '\\$').replace(/"/g, '\'').trim(),
+        host: details[2].trim(),
+        port: details[3].trim(),
+        database: details[4].trim()
     };
     return detailsObject;
 };

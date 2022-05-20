@@ -43,6 +43,13 @@ class MainController {
             'currentFolderIsShopware': false,
             'currentFolderhasWordpress': false
         },
+        'localhost': {
+            'username': '',
+            'password': '',
+            'host': '',
+            'port': '',
+            'database': ''
+        },
         'finalMessages': {
             'magentoDatabaseLocation': '',
             'wordpressDatabaseLocation': '',
