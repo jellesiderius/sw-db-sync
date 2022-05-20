@@ -1,5 +1,6 @@
 import {localhostShopwareRootExec} from '../utils/console';
 import { Listr } from 'listr2';
+import configFile from '../../config/settings.json'
 
 class ShopwareConfigureTask {
     private configureTasks = [];
@@ -25,8 +26,10 @@ class ShopwareConfigureTask {
             {
                 title: "Setting URL for sales channels",
                 task: async (): Promise<void> => {
-                    await localhostShopwareRootExec(`bin/console sales-channel:update:domain shopware-test.development`, config);
-                    // @TODO: Replace https to http & replace static domain
+                    await localhostShopwareRootExec(`bin/console sales-channel:update:domain ${config.settings.shopwareLocalhostDomainName}`, config);
+                    await localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "UPDATE sales_channel_domain SET url = REPLACE(url,'https://', 'http://');"`, config);
+
+                    config.finalMessages.importDomain = `http://${config.settings.shopwareLocalhostDomainName}`;
                 }
             }
         );
@@ -44,34 +47,19 @@ class ShopwareConfigureTask {
             {
                 title: 'Creating a admin user',
                 task: async (): Promise<void> => {
-                    //
+                    await localhostShopwareRootExec(`bin/console user:create -a ${configFile.shopwareBackend.adminUsername} -p ${configFile.shopwareBackend.adminPassword} --email ${configFile.shopwareBackend.adminEmailAddress}`, config);
                 }
             }
         );
 
         this.configureTasks.push(
             {
-                title: 'Creating a dummy customer on every website',
+                title: 'Reindexing Shopware (ES)',
                 task: async (): Promise<void> => {
-                    //
-                }
-            }
-        );
-
-        this.configureTasks.push(
-            {
-                title: "Configuring Wordpress settings within Magento",
-                task: async (): Promise<void> => {
-                    //
-                }
-            }
-        );
-
-        this.configureTasks.push(
-            {
-                title: 'Reindexing Magento',
-                task: async (): Promise<void> => {
-                    // Reindex data, only when elastic is used
+                    // Reindex
+                    await localhostShopwareRootExec(`bin/console es:index -n`, config);
+                    // Reset indexes
+                    await localhostShopwareRootExec(`bin/console es:reset -n`, config);
                 }
             }
         );
@@ -80,7 +68,7 @@ class ShopwareConfigureTask {
             {
                 title: 'Flushing Shopware 6 caches',
                 task: async (): Promise<void> => {
-                    // Flush the magento caches and import config data
+                    // Flush the shopware caches and import config data
                     await localhostShopwareRootExec(`bin/console cache:clear`, config);
                 }
             }

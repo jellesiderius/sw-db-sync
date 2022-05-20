@@ -18,13 +18,9 @@ class MainController {
             'localDatabaseFolderLocation': configFile.general.databaseLocation,
             'localDomainExtension': configFile.general.localDomainExtension
         },
-        'requirements': {
-            'magerun2Version': '4.7.0'
-        },
         'serverVariables': {
             'externalPhpPath': '',
             'shopwareRoot': '',
-            'magerunFile': '',
             'databaseName': ''
         },
         'settings': {
@@ -34,7 +30,7 @@ class MainController {
             'databaseFullPath': '',
             'strip': '',
             'syncImages': false,
-            'magentoLocalhostDomainName': '',
+            'shopwareLocalhostDomainName': '',
             'rsyncInstalled': false,
             'elasticSearchUsed': false,
             'import': 'no',
@@ -51,7 +47,7 @@ class MainController {
             'database': ''
         },
         'finalMessages': {
-            'magentoDatabaseLocation': '',
+            'shopwareDatabaseLocation': '',
             'wordpressDatabaseLocation': '',
             'importDomain': ''
         },

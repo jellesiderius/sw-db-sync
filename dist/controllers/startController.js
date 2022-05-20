@@ -26,11 +26,10 @@ class StartController extends mainController_1.default {
                 // Show final message when done with all tasks
                 if (this.config.finalMessages.importDomain.length > 0) {
                     console_1.success(`Shopware is successfully imported to localhost. ${this.config.finalMessages.importDomain} is now available.`);
-                    console_1.info(`You can log in to the Shopware backend with username: ${settings_json_1.default.magentoBackend.adminUsername} and password: ${settings_json_1.default.magentoBackend.adminPassword}`);
-                    console_1.info(`For each website there is a dummy customer account available. Email: ${settings_json_1.default.magentoBackend.adminEmailAddress}, Password: ${settings_json_1.default.magentoBackend.adminPassword}`);
+                    console_1.info(`You can log in to the Shopware backend with username: ${settings_json_1.default.shopwareBackend.adminUsername} and password: ${settings_json_1.default.shopwareBackend.adminPassword}`);
                 }
-                else if (this.config.finalMessages.magentoDatabaseLocation.length > 0) {
-                    console_1.success(`Downloaded Shopware database to: ${this.config.finalMessages.magentoDatabaseLocation}`);
+                else if (this.config.finalMessages.shopwareDatabaseLocation.length > 0) {
+                    console_1.success(`Downloaded Shopware database to: ${this.config.finalMessages.shopwareDatabaseLocation}`);
                     // Show wordpress download message if downloaded
                     if (this.config.finalMessages.wordpressDatabaseLocation.length > 0 && this.config.settings.wordpressDownload && this.config.settings.wordpressDownload == 'yes' && this.config.settings.wordpressImport != 'yes') {
                         console_1.success(`Downloaded Wordpress database to: ${this.config.finalMessages.wordpressDatabaseLocation}`);
@@ -39,7 +38,7 @@ class StartController extends mainController_1.default {
                 // Show wordpress import message if imported
                 if (this.config.settings.wordpressImport && this.config.settings.wordpressImport == 'yes') {
                     console_1.success(`Wordpress is successfully imported to localhost.`);
-                    console_1.info(`You can log in to the Wordpress backend with username: ${settings_json_1.default.magentoBackend.adminEmailAddress} and password: ${settings_json_1.default.magentoBackend.adminPassword}`);
+                    console_1.info(`You can log in to the Wordpress backend with username: ${settings_json_1.default.shopwareBackend.adminEmailAddress} and password: ${settings_json_1.default.shopwareBackend.adminPassword}`);
                 }
                 process.exit();
             }
@@ -76,7 +75,7 @@ class StartController extends mainController_1.default {
                 // Build import list
                 let importTask = yield new importTask_1.default();
                 yield importTask.configure(this.list, this.config);
-                // Build Magento configure list
+                // Build Shopware configure list
                 let shopwareConfigureTask = yield new shopwareConfigureTask_1.default();
                 yield shopwareConfigureTask.configure(this.list, this.config);
             }

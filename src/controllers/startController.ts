@@ -25,10 +25,9 @@ class StartController extends MainController {
             // Show final message when done with all tasks
             if (this.config.finalMessages.importDomain.length > 0) {
                 success(`Shopware is successfully imported to localhost. ${this.config.finalMessages.importDomain} is now available.`);
-                info(`You can log in to the Shopware backend with username: ${configFile.magentoBackend.adminUsername} and password: ${configFile.magentoBackend.adminPassword}`);
-                info(`For each website there is a dummy customer account available. Email: ${configFile.magentoBackend.adminEmailAddress}, Password: ${configFile.magentoBackend.adminPassword}`);
-            } else if (this.config.finalMessages.magentoDatabaseLocation.length > 0) {
-                success(`Downloaded Shopware database to: ${this.config.finalMessages.magentoDatabaseLocation}`);
+                info(`You can log in to the Shopware backend with username: ${configFile.shopwareBackend.adminUsername} and password: ${configFile.shopwareBackend.adminPassword}`);
+            } else if (this.config.finalMessages.shopwareDatabaseLocation.length > 0) {
+                success(`Downloaded Shopware database to: ${this.config.finalMessages.shopwareDatabaseLocation}`);
                 // Show wordpress download message if downloaded
                 if (this.config.finalMessages.wordpressDatabaseLocation.length > 0 && this.config.settings.wordpressDownload && this.config.settings.wordpressDownload == 'yes' && this.config.settings.wordpressImport != 'yes') {
                     success(`Downloaded Wordpress database to: ${this.config.finalMessages.wordpressDatabaseLocation}`);
@@ -38,7 +37,7 @@ class StartController extends MainController {
             // Show wordpress import message if imported
             if (this.config.settings.wordpressImport && this.config.settings.wordpressImport == 'yes') {
                 success(`Wordpress is successfully imported to localhost.`);
-                info(`You can log in to the Wordpress backend with username: ${configFile.magentoBackend.adminEmailAddress} and password: ${configFile.magentoBackend.adminPassword}`);
+                info(`You can log in to the Wordpress backend with username: ${configFile.shopwareBackend.adminEmailAddress} and password: ${configFile.shopwareBackend.adminPassword}`);
             }
 
             process.exit();
@@ -84,7 +83,7 @@ class StartController extends MainController {
             let importTask = await new ImportTask();
             await importTask.configure(this.list, this.config);
 
-            // Build Magento configure list
+            // Build Shopware configure list
             let shopwareConfigureTask = await new ShopwareConfigureTask();
             await shopwareConfigureTask.configure(this.list, this.config);
         }

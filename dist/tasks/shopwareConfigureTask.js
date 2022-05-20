@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const console_1 = require("../utils/console");
+const settings_json_1 = tslib_1.__importDefault(require("../../config/settings.json"));
 class ShopwareConfigureTask {
     constructor() {
         this.configureTasks = [];
@@ -18,8 +19,9 @@ class ShopwareConfigureTask {
             this.configureTasks.push({
                 title: "Setting URL for sales channels",
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
-                    yield console_1.localhostShopwareRootExec(`bin/console sales-channel:update:domain shopware-test.development`, config);
-                    // @TODO: Replace https to http & replace static domain
+                    yield console_1.localhostShopwareRootExec(`bin/console sales-channel:update:domain ${config.settings.shopwareLocalhostDomainName}`, config);
+                    yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "UPDATE sales_channel_domain SET url = REPLACE(url,'https://', 'http://');"`, config);
+                    config.finalMessages.importDomain = `http://${config.settings.shopwareLocalhostDomainName}`;
                 })
             });
             this.configureTasks.push({
@@ -31,31 +33,22 @@ class ShopwareConfigureTask {
             this.configureTasks.push({
                 title: 'Creating a admin user',
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
-                    //
+                    yield console_1.localhostShopwareRootExec(`bin/console user:create -a ${settings_json_1.default.shopwareBackend.adminUsername} -p ${settings_json_1.default.shopwareBackend.adminPassword} --email ${settings_json_1.default.shopwareBackend.adminEmailAddress}`, config);
                 })
             });
             this.configureTasks.push({
-                title: 'Creating a dummy customer on every website',
+                title: 'Reindexing Shopware (ES)',
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
-                    //
-                })
-            });
-            this.configureTasks.push({
-                title: "Configuring Wordpress settings within Magento",
-                task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
-                    //
-                })
-            });
-            this.configureTasks.push({
-                title: 'Reindexing Magento',
-                task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
-                    // Reindex data, only when elastic is used
+                    // Reindex
+                    yield console_1.localhostShopwareRootExec(`bin/console es:index -n`, config);
+                    // Reset indexes
+                    yield console_1.localhostShopwareRootExec(`bin/console es:reset -n`, config);
                 })
             });
             this.configureTasks.push({
                 title: 'Flushing Shopware 6 caches',
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
-                    // Flush the magento caches and import config data
+                    // Flush the shopware caches and import config data
                     yield console_1.localhostShopwareRootExec(`bin/console cache:clear`, config);
                 })
             });

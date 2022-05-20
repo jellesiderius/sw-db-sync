@@ -30,15 +30,15 @@ class ChecksTask {
                     title: 'Checking if config/settings.json is correctly filled',
                     task: async (): Promise<void> => {
                         // Lets make sure everything is filled in
-                        if (!configFile.magentoBackend.adminUsername || configFile.magentoBackend.adminUsername && configFile.magentoBackend.adminUsername.length == 0) {
+                        if (!configFile.shopwareBackend.adminUsername || configFile.shopwareBackend.adminUsername && configFile.shopwareBackend.adminUsername.length == 0) {
                             throw new Error('Admin username is missing config/settings.json');
                         }
 
-                        if (!configFile.magentoBackend.adminPassword || configFile.magentoBackend.adminPassword && configFile.magentoBackend.adminPassword.length == 0) {
+                        if (!configFile.shopwareBackend.adminPassword || configFile.shopwareBackend.adminPassword && configFile.shopwareBackend.adminPassword.length == 0) {
                             throw new Error('Admin password is missing in config/settings.json');
                         }
 
-                        if (!configFile.magentoBackend.adminEmailAddress || configFile.magentoBackend.adminEmailAddress && configFile.magentoBackend.adminEmailAddress.length == 0) {
+                        if (!configFile.shopwareBackend.adminEmailAddress || configFile.shopwareBackend.adminEmailAddress && configFile.shopwareBackend.adminEmailAddress.length == 0) {
                             throw new Error('Admin email address is missing in config/settings.json');
                         }
 

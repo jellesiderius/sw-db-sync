@@ -87,14 +87,9 @@ const sshNavigateToShopwareRootCommand = (command: string, config: any) => {
     }
 }
 
-// Execute a PHP script in the root of magento
+// Execute a PHP script in the root of shopware
 const sshShopwareRootFolderPhpCommand = (command: string, config: any) => {
     return sshNavigateToShopwareRootCommand(config.serverVariables.externalPhpPath + ' ' + command, config);
-}
-
-// Execute a PHP script in the root of magento
-const sshShopwareRootFolderMagerunCommand = (command: string, config: any) => {
-    return sshShopwareRootFolderPhpCommand(config.serverVariables.magerunFile + ' ' + command, config);
 }
 
 const localhostShopwareRootExec = (command: string, config: any, skipErrors: boolean = false) => {
@@ -144,7 +139,6 @@ export {
     consoleCommand,
     sshNavigateToShopwareRootCommand,
     sshShopwareRootFolderPhpCommand,
-    sshShopwareRootFolderMagerunCommand,
     localhostShopwareRootExec,
     localhostRsyncDownloadCommand,
     extractDatabaseDetails

@@ -1,4 +1,4 @@
-import {localhostRsyncDownloadCommand, sshShopwareRootFolderMagerunCommand, sshNavigateToShopwareRootCommand, extractDatabaseDetails } from '../utils/console';
+import {localhostRsyncDownloadCommand, sshNavigateToShopwareRootCommand, extractDatabaseDetails } from '../utils/console';
 import { Listr } from 'listr2';
 // @ts-ignore
 import staticConfigFile from '../../config/static-settings.json'
@@ -67,7 +67,6 @@ class DownloadTask {
             {
                 title: 'Downloading Shopware6 DB Dump File to server',
                 task: async (): Promise<void> => {
-                    // Download Magerun to the server
                     await ssh.execCommand(sshNavigateToShopwareRootCommand('curl -O https://raw.githubusercontent.com/jellesiderius/shopware6-database-dump/main/shopware6-database-dump.sh', config));
                 }
             },
@@ -128,7 +127,7 @@ class DownloadTask {
                     }
 
                     // Set final message with Shopware 6 DB location
-                    config.finalMessages.magentoDatabaseLocation = localDatabaseLocation;
+                    config.finalMessages.shopwareDatabaseLocation = localDatabaseLocation;
                     config.settings.databaseFullPath = localDatabaseFolderLocation;
                 }
             }

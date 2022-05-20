@@ -50,7 +50,6 @@ class DownloadTask {
             this.downloadTasks.push({
                 title: 'Downloading Shopware6 DB Dump File to server',
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
-                    // Download Magerun to the server
                     yield ssh.execCommand(console_1.sshNavigateToShopwareRootCommand('curl -O https://raw.githubusercontent.com/jellesiderius/shopware6-database-dump/main/shopware6-database-dump.sh', config));
                 })
             });
@@ -94,7 +93,7 @@ class DownloadTask {
                         });
                     }
                     // Set final message with Shopware 6 DB location
-                    config.finalMessages.magentoDatabaseLocation = localDatabaseLocation;
+                    config.finalMessages.shopwareDatabaseLocation = localDatabaseLocation;
                     config.settings.databaseFullPath = localDatabaseFolderLocation;
                 })
             });

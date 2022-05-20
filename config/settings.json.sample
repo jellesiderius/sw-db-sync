@@ -8,7 +8,7 @@
     "keyLocation": "",
     "passphrase": ""
   },
-  "magentoBackend": {
+  "shopwareBackend": {
     "adminUsername": "admin",
     "adminPassword": "Password1!",
     "adminEmailAddress": "info@example.com"

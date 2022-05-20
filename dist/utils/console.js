@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.extractDatabaseDetails = exports.localhostRsyncDownloadCommand = exports.localhostShopwareRootExec = exports.sshShopwareRootFolderMagerunCommand = exports.sshShopwareRootFolderPhpCommand = exports.sshNavigateToShopwareRootCommand = exports.consoleCommand = exports.clearConsole = exports.emptyLine = exports.url = exports.error = exports.warning = exports.success = exports.info = exports.verbose = void 0;
+exports.extractDatabaseDetails = exports.localhostRsyncDownloadCommand = exports.localhostShopwareRootExec = exports.sshShopwareRootFolderPhpCommand = exports.sshNavigateToShopwareRootCommand = exports.consoleCommand = exports.clearConsole = exports.emptyLine = exports.url = exports.error = exports.warning = exports.success = exports.info = exports.verbose = void 0;
 const tslib_1 = require("tslib");
 const kleur_1 = tslib_1.__importDefault(require("kleur"));
 const readline = tslib_1.__importStar(require("readline"));
@@ -86,16 +86,11 @@ const sshNavigateToShopwareRootCommand = (command, config) => {
     }
 };
 exports.sshNavigateToShopwareRootCommand = sshNavigateToShopwareRootCommand;
-// Execute a PHP script in the root of magento
+// Execute a PHP script in the root of shopware
 const sshShopwareRootFolderPhpCommand = (command, config) => {
     return sshNavigateToShopwareRootCommand(config.serverVariables.externalPhpPath + ' ' + command, config);
 };
 exports.sshShopwareRootFolderPhpCommand = sshShopwareRootFolderPhpCommand;
-// Execute a PHP script in the root of magento
-const sshShopwareRootFolderMagerunCommand = (command, config) => {
-    return sshShopwareRootFolderPhpCommand(config.serverVariables.magerunFile + ' ' + command, config);
-};
-exports.sshShopwareRootFolderMagerunCommand = sshShopwareRootFolderMagerunCommand;
 const localhostShopwareRootExec = (command, config, skipErrors = false) => {
     return consoleCommand(`cd ${config.settings.currentFolder}; ${command};`, skipErrors);
 };
