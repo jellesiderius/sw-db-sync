@@ -25,6 +25,15 @@ class ShopwareConfigureTask {
                 })
             });
             this.configureTasks.push({
+                title: "Emptying media tables",
+                task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
+                    // Product media
+                    yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "TRUNCATE TABLE product_media"`, config);
+                    // Theme media
+                    yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "TRUNCATE TABLE theme_media"`, config);
+                })
+            });
+            this.configureTasks.push({
                 title: "Compiling theme",
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
                     yield console_1.localhostShopwareRootExec(`bin/console theme:compile`, config);

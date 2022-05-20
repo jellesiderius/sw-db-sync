@@ -36,6 +36,19 @@ class ShopwareConfigureTask {
 
         this.configureTasks.push(
             {
+                title: "Emptying media tables",
+                task: async (): Promise<void> => {
+                    // Product media
+                    await localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "TRUNCATE TABLE product_media"`, config);
+
+                    // Theme media
+                    await localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "TRUNCATE TABLE theme_media"`, config);
+                }
+            }
+        );
+
+        this.configureTasks.push(
+            {
                 title: "Compiling theme",
                 task: async (): Promise<void> => {
                     await localhostShopwareRootExec(`bin/console theme:compile`, config);
