@@ -17,8 +17,7 @@ class MainController {
             'customConfig': {
                 'sshKeyLocation': settings_json_1.default.ssh.keyLocation,
                 'sshPassphrase': settings_json_1.default.ssh.passphrase,
-                'localDatabaseFolderLocation': settings_json_1.default.general.databaseLocation,
-                'localDomainExtension': settings_json_1.default.general.localDomainExtension
+                'localDatabaseFolderLocation': settings_json_1.default.general.databaseLocation
             },
             'serverVariables': {
                 'externalPhpPath': '',
@@ -32,7 +31,6 @@ class MainController {
                 'databaseFullPath': '',
                 'strip': '',
                 'syncImages': false,
-                'shopwareLocalhostDomainName': '',
                 'rsyncInstalled': false,
                 'elasticSearchUsed': false,
                 'import': 'no',
@@ -46,7 +44,9 @@ class MainController {
                 'password': '',
                 'host': '',
                 'port': '',
-                'database': ''
+                'database': '',
+                'domainUrl': '',
+                'https': false
             },
             'finalMessages': {
                 'shopwareDatabaseLocation': '',

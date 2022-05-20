@@ -31,9 +31,6 @@ class ChecksTask {
                         if (!settings_json_1.default.shopwareBackend.adminEmailAddress || settings_json_1.default.shopwareBackend.adminEmailAddress && settings_json_1.default.shopwareBackend.adminEmailAddress.length == 0) {
                             throw new Error('Admin email address is missing in config/settings.json');
                         }
-                        if (!settings_json_1.default.general.localDomainExtension || settings_json_1.default.general.localDomainExtension && settings_json_1.default.general.localDomainExtension.length == 0) {
-                            throw new Error('Local domain extension is missing in config/settings.json');
-                        }
                     })
                 });
                 if (config.settings.import && config.settings.import == 'yes') {

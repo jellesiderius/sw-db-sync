@@ -26,10 +26,15 @@ class ShopwareConfigureTask {
             {
                 title: "Setting URL for sales channels",
                 task: async (): Promise<void> => {
-                    await localhostShopwareRootExec(`bin/console sales-channel:update:domain ${config.settings.shopwareLocalhostDomainName}`, config);
-                    await localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "UPDATE sales_channel_domain SET url = REPLACE(url,'https://', 'http://');"`, config);
+                    await localhostShopwareRootExec(`bin/console sales-channel:update:domain ${config.localhost.domainUrl}`, config);
 
-                    config.finalMessages.importDomain = `http://${config.settings.shopwareLocalhostDomainName}`;
+                    if (config.localhost.https) {
+                        await localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "UPDATE sales_channel_domain SET url = REPLACE(url,'http://', 'https://');"`, config);
+                        config.finalMessages.importDomain = `https://${config.localhost.domainUrl}`;
+                    } else {
+                        await localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "UPDATE sales_channel_domain SET url = REPLACE(url,'https://', 'http://');"`, config);
+                        config.finalMessages.importDomain = `http://${config.localhost.domainUrl}`;
+                    }
                 }
             }
         );

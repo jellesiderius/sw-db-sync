@@ -16,7 +16,7 @@ class ImportTask {
                 task: (ctx, task) => task.newListr(this.importTasks)
             });
             this.importTasks.push({
-                title: 'Getting database info',
+                title: 'Getting localhost .env info',
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
                     yield console_1.localhostShopwareRootExec(`cat .env | grep "DATABASE_URL="`, config).then((result) => {
                         if (result) {
@@ -26,6 +26,16 @@ class ImportTask {
                             config.localhost.host = databaseDetails.host;
                             config.localhost.port = databaseDetails.port;
                             config.localhost.database = databaseDetails.database;
+                        }
+                    });
+                    yield console_1.localhostShopwareRootExec(`cat .env | grep "APP_URL="`, config).then((result) => {
+                        if (result) {
+                            var appUrl = result, splittedAppUrl = appUrl.split('//'), appUrlFromArray = splittedAppUrl[1].replace('"', '').trim();
+                            config.localhost.domainUrl = appUrlFromArray;
+                            // Determine http or https
+                            if (appUrl.indexOf('https') !== -1) {
+                                config.localhost.https = true;
+                            }
                         }
                     });
                 })
@@ -39,8 +49,6 @@ class ImportTask {
                     yield console_1.localhostShopwareRootExec(`mysqladmin -u ${config.localhost.username} --password=${config.localhost.password} create ${config.localhost.database} -f`, config, true);
                     // Import database
                     yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} --force < ${config.settings.databaseFullPath}/${config.settings.databaseFileName}.sql`, config, true);
-                    // bin/console sales-channel:update:domain shopware-test.development
-                    // bin/console theme:compile
                 })
             });
         });

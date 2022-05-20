@@ -41,10 +41,6 @@ class ChecksTask {
                         if (!configFile.shopwareBackend.adminEmailAddress || configFile.shopwareBackend.adminEmailAddress && configFile.shopwareBackend.adminEmailAddress.length == 0) {
                             throw new Error('Admin email address is missing in config/settings.json');
                         }
-
-                        if (!configFile.general.localDomainExtension || configFile.general.localDomainExtension && configFile.general.localDomainExtension.length == 0) {
-                            throw new Error('Local domain extension is missing in config/settings.json');
-                        }
                     }
                 }
             );

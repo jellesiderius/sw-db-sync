@@ -24,7 +24,7 @@ class ImportTask {
 
         this.importTasks.push(
             {
-                title: 'Getting database info',
+                title: 'Getting localhost .env info',
                 task: async (): Promise<void> => {
                     await localhostShopwareRootExec(`cat .env | grep "DATABASE_URL="`, config).then((result: any) => {
                         if (result) {
@@ -35,6 +35,21 @@ class ImportTask {
                             config.localhost.host = databaseDetails.host;
                             config.localhost.port = databaseDetails.port;
                             config.localhost.database = databaseDetails.database;
+                        }
+                    });
+
+                    await localhostShopwareRootExec(`cat .env | grep "APP_URL="`, config).then((result: any) => {
+                        if (result) {
+                            var appUrl = result,
+                                splittedAppUrl = appUrl.split('//'),
+                                appUrlFromArray = splittedAppUrl[1].replace('"', '').trim();
+
+                            config.localhost.domainUrl = appUrlFromArray;
+
+                            // Determine http or https
+                            if (appUrl.indexOf('https') !== -1) {
+                                config.localhost.https = true;
+                            }
                         }
                     });
                 }
@@ -53,9 +68,6 @@ class ImportTask {
 
                     // Import database
                     await localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} --force < ${config.settings.databaseFullPath}/${config.settings.databaseFileName}.sql`, config, true);
-
-                    // bin/console sales-channel:update:domain shopware-test.development
-                    // bin/console theme:compile
                 }
             }
         );

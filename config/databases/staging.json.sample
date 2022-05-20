@@ -6,7 +6,6 @@
             "server": "example1.io",
             "domainFolder": "example1.io",
             "port": "2222",
-            "localProjectFolder": "",
             "externalProjectFolder": "",
             "externalPhpPath": "",
             "localProjectUrl": "example1.development"
@@ -17,7 +16,6 @@
             "server": "example2.io",
             "domainFolder": "example2.io",
             "port": "2222",
-            "localProjectFolder": "",
             "externalProjectFolder": "",
             "externalPhpPath": "",
             "localProjectUrl": "example2.development"

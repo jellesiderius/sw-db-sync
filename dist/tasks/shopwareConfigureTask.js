@@ -19,9 +19,15 @@ class ShopwareConfigureTask {
             this.configureTasks.push({
                 title: "Setting URL for sales channels",
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
-                    yield console_1.localhostShopwareRootExec(`bin/console sales-channel:update:domain ${config.settings.shopwareLocalhostDomainName}`, config);
-                    yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "UPDATE sales_channel_domain SET url = REPLACE(url,'https://', 'http://');"`, config);
-                    config.finalMessages.importDomain = `http://${config.settings.shopwareLocalhostDomainName}`;
+                    yield console_1.localhostShopwareRootExec(`bin/console sales-channel:update:domain ${config.localhost.domainUrl}`, config);
+                    if (config.localhost.https) {
+                        yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "UPDATE sales_channel_domain SET url = REPLACE(url,'http://', 'https://');"`, config);
+                        config.finalMessages.importDomain = `https://${config.localhost.domainUrl}`;
+                    }
+                    else {
+                        yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "UPDATE sales_channel_domain SET url = REPLACE(url,'https://', 'http://');"`, config);
+                        config.finalMessages.importDomain = `http://${config.localhost.domainUrl}`;
+                    }
                 })
             });
             this.configureTasks.push({

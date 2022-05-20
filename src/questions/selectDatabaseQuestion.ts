@@ -34,12 +34,6 @@ class SelectDatabaseQuestion {
             // Set current folder name based on current folder
             config.settings.currentFolderName = path.basename(path.resolve(config.settings.currentFolder));
 
-            // Overwrite project domain name if it's configured within database json file
-            config.settings.shopwareLocalhostDomainName = config.settings.currentFolderName + config.customConfig.localDomainExtension;
-            if (config.databases.databaseData.localProjectUrl) {
-                config.settings.shopwareLocalhostDomainName = config.databases.databaseData.localProjectUrl;
-            }
-
             // Check if current is shopware. This will be used to determine if we can import Shopware
             if (fs.existsSync(config.settings.currentFolder + '/vendor/shopware/core') || fs.existsSync(config.settings.currentFolder + '/public/index.php')) {
                 config.settings.currentFolderIsShopware = true;

@@ -1,6 +1,5 @@
 {
   "general": {
-    "localDomainExtension": ".development",
     "databaseLocation": "/Users/{username}/Databases"
   },
   "ssh": {
