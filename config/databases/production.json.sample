@@ -7,8 +7,7 @@
             "domainFolder": "example1.io",
             "port": "2222",
             "externalProjectFolder": "",
-            "externalPhpPath": "",
-            "localProjectUrl": "example1.development"
+            "externalPhpPath": ""
         },
         "username-2-placeholder": {
             "username": "example2",
@@ -17,8 +16,7 @@
             "domainFolder": "example2.io",
             "port": "2222",
             "externalProjectFolder": "",
-            "externalPhpPath": "",
-            "localProjectUrl": "example2.development"
+            "externalPhpPath": ""
         }
     }
 }

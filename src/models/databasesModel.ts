@@ -15,7 +15,6 @@ class DatabasesModel {
 		'externalProjectFolder': '',
 		'wordpress': false,
 		'externalPhpPath': '',
-		'localProjectUrl': ''
 	};
 
 	// Collect databases | collect single database
@@ -38,14 +37,11 @@ class DatabasesModel {
 				this.databaseData.domainFolder = database.domainFolder;
 				// @ts-ignore
 				this.databaseData.port = database.port;
-				this.databaseData.localProjectFolder = database.localProjectFolder;
 				this.databaseData.externalProjectFolder = database.externalProjectFolder;
 				// @ts-ignore
 				this.databaseData.wordpress = database.wordpress;
 				// @ts-ignore
 				this.databaseData.externalPhpPath = database.externalPhpPath
-				// @ts-ignore
-				this.databaseData.localProjectUrl = database.localProjectUrl
 			} else {
 				// Collect all database
 				this.databasesList.push(`${database.domainFolder} / ${database.username} (${key})`);
