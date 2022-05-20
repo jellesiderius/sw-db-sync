@@ -39,7 +39,7 @@ class ConfigurationQuestions {
                 name: 'strip',
                 default: 'stripped',
                 message: 'Does the Shopware database need to be stripped for development?',
-                choices: ['stripped', 'keep customer data', 'full'],
+                choices: ['stripped', 'full'],
                 validate: (input: string) => {
                     return input !== ''
                 }

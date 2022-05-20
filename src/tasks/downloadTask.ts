@@ -99,9 +99,14 @@ class DownloadTask {
                         }
                     });
 
-                    // Dump database, database name will be "shopware6-database-dump.sql"
-                    var dumpCommand = `sh shopware6-database-dump.sh -d ${database} -u ${username} -pa ${password} --host ${host} -p ${port}; mv ${config.settings.databaseFileName}.sql ~`;
-                    await ssh.execCommand(sshNavigateToShopwareRootCommand(dumpCommand, config));
+                    // Dump database
+                    var dumpCommand = `sh shopware6-database-dump.sh -d ${database} -u ${username} -pa ${password} --host ${host} -p ${port} --gdpr`
+                    if (config.settings.strip == 'full') {
+                        dumpCommand = `sh shopware6-database-dump.sh -d ${database} -u ${username} -pa ${password} --host ${host} -p ${port}`
+                    }
+
+
+                    await ssh.execCommand(sshNavigateToShopwareRootCommand(`${dumpCommand}; mv ${config.settings.databaseFileName}.sql ~`, config));
                 }
             }
         );
