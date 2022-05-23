@@ -1,6 +1,5 @@
 import * as fs from 'fs'
 import { Listr } from 'listr2';
-import { consoleCommand } from '../utils/console';
 import configFile from '../../config/settings.json'
 
 class ChecksTask {
@@ -23,7 +22,7 @@ class ChecksTask {
             }
         )
 
-        if (config.settings.import && config.settings.import == 'yes' || config.settings.wordpressImport && config.settings.wordpressImport == "yes" && config.settings.currentFolderhasWordpress) {
+        if (config.settings.import && config.settings.import == 'yes') {
             // Check if all settings are filled in, if we import
             this.checkTasks.push(
                 {

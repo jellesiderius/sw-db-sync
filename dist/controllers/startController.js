@@ -30,15 +30,6 @@ class StartController extends mainController_1.default {
                 }
                 else if (this.config.finalMessages.shopwareDatabaseLocation.length > 0) {
                     console_1.success(`Downloaded Shopware database to: ${this.config.finalMessages.shopwareDatabaseLocation}`);
-                    // Show wordpress download message if downloaded
-                    if (this.config.finalMessages.wordpressDatabaseLocation.length > 0 && this.config.settings.wordpressDownload && this.config.settings.wordpressDownload == 'yes' && this.config.settings.wordpressImport != 'yes') {
-                        console_1.success(`Downloaded Wordpress database to: ${this.config.finalMessages.wordpressDatabaseLocation}`);
-                    }
-                }
-                // Show wordpress import message if imported
-                if (this.config.settings.wordpressImport && this.config.settings.wordpressImport == 'yes') {
-                    console_1.success(`Wordpress is successfully imported to localhost.`);
-                    console_1.info(`You can log in to the Wordpress backend with username: ${settings_json_1.default.shopwareBackend.adminEmailAddress} and password: ${settings_json_1.default.shopwareBackend.adminPassword}`);
                 }
                 process.exit();
             }

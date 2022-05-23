@@ -28,16 +28,6 @@ class StartController extends MainController {
                 info(`You can log in to the Shopware backend with username: ${configFile.shopwareBackend.adminUsername} and password: ${configFile.shopwareBackend.adminPassword}`);
             } else if (this.config.finalMessages.shopwareDatabaseLocation.length > 0) {
                 success(`Downloaded Shopware database to: ${this.config.finalMessages.shopwareDatabaseLocation}`);
-                // Show wordpress download message if downloaded
-                if (this.config.finalMessages.wordpressDatabaseLocation.length > 0 && this.config.settings.wordpressDownload && this.config.settings.wordpressDownload == 'yes' && this.config.settings.wordpressImport != 'yes') {
-                    success(`Downloaded Wordpress database to: ${this.config.finalMessages.wordpressDatabaseLocation}`);
-                }
-            }
-
-            // Show wordpress import message if imported
-            if (this.config.settings.wordpressImport && this.config.settings.wordpressImport == 'yes') {
-                success(`Wordpress is successfully imported to localhost.`);
-                info(`You can log in to the Wordpress backend with username: ${configFile.shopwareBackend.adminEmailAddress} and password: ${configFile.shopwareBackend.adminPassword}`);
             }
 
             process.exit();

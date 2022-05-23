@@ -1,6 +1,5 @@
 import {extractDatabaseDetails, localhostShopwareRootExec} from '../utils/console';
 import { Listr } from 'listr2';
-import {sed} from 'shelljs'
 
 class ImportTask {
     private importTasks = [];
@@ -68,6 +67,16 @@ class ImportTask {
 
                     // Import database
                     await localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} --force < ${config.settings.databaseFullPath}/${config.settings.databaseFileName}.sql`, config, true);
+                }
+            }
+        );
+
+        this.importTasks.push(
+            {
+                title: 'Cleaning up',
+                task: async (): Promise<void> => {
+                    // Remove local SQL file
+                    await localhostShopwareRootExec(`rm ${config.settings.databaseFileName}.sql`, config);
                 }
             }
         );

@@ -34,10 +34,7 @@ class MainController {
                 'rsyncInstalled': false,
                 'elasticSearchUsed': false,
                 'import': 'no',
-                'wordpressImport': 'no',
-                'wordpressDownload': 'no',
                 'currentFolderIsShopware': false,
-                'currentFolderhasWordpress': false
             },
             'localhost': {
                 'username': '',
@@ -50,7 +47,6 @@ class MainController {
             },
             'finalMessages': {
                 'shopwareDatabaseLocation': '',
-                'wordpressDatabaseLocation': '',
                 'importDomain': ''
             },
             'databases': {

@@ -51,6 +51,13 @@ class ImportTask {
                     yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} --force < ${config.settings.databaseFullPath}/${config.settings.databaseFileName}.sql`, config, true);
                 })
             });
+            this.importTasks.push({
+                title: 'Cleaning up',
+                task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
+                    // Remove local SQL file
+                    yield console_1.localhostShopwareRootExec(`rm ${config.settings.databaseFileName}.sql`, config);
+                })
+            });
         });
     }
 }

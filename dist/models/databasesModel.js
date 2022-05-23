@@ -16,7 +16,6 @@ class DatabasesModel {
             'port': 22,
             'localProjectFolder': '',
             'externalProjectFolder': '',
-            'wordpress': false,
             'externalPhpPath': '',
         };
         // Collect databases | collect single database
@@ -38,8 +37,6 @@ class DatabasesModel {
                     // @ts-ignore
                     this.databaseData.port = database.port;
                     this.databaseData.externalProjectFolder = database.externalProjectFolder;
-                    // @ts-ignore
-                    this.databaseData.wordpress = database.wordpress;
                     // @ts-ignore
                     this.databaseData.externalPhpPath = database.externalPhpPath;
                 }

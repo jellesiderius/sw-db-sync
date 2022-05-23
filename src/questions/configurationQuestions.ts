@@ -18,9 +18,6 @@ class ConfigurationQuestions {
                 // Set import setting for Shopware
                 config.settings.import = answers.import
 
-                // Set wordpress download value
-                config.settings.wordpressDownload = answers.wordpressDownload
-
                 // Change location of database download depending on answer
                 if (config.settings.import == 'yes') {
                     config.customConfig.localDatabaseFolderLocation = config.settings.currentFolder;
