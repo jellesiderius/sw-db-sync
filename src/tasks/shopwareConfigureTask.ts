@@ -1,4 +1,4 @@
-import {localhostShopwareRootExec} from '../utils/console';
+import {localhostShopwareRootExec, localhostShopwareRootMysqlExec} from '../utils/console';
 import { Listr } from 'listr2';
 import configFile from '../../config/settings.json'
 
@@ -29,28 +29,30 @@ class ShopwareConfigureTask {
                     await localhostShopwareRootExec(`bin/console sales-channel:update:domain ${config.localhost.domainUrl}`, config);
 
                     if (config.localhost.https) {
-                        await localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "UPDATE sales_channel_domain SET url = REPLACE(url,'http://', 'https://');"`, config);
+                        await localhostShopwareRootMysqlExec("UPDATE sales_channel_domain SET url = REPLACE(url,'http://', 'https://')", config);
                         config.finalMessages.importDomain = `https://${config.localhost.domainUrl}`;
                     } else {
-                        await localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "UPDATE sales_channel_domain SET url = REPLACE(url,'https://', 'http://');"`, config);
+                        await localhostShopwareRootMysqlExec("UPDATE sales_channel_domain SET url = REPLACE(url,'https://', 'http://')", config);
                         config.finalMessages.importDomain = `http://${config.localhost.domainUrl}`;
                     }
                 }
             }
         );
 
-        this.configureTasks.push(
-            {
-                title: "Emptying media tables",
-                task: async (): Promise<void> => {
-                    // Product media
-                    await localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "TRUNCATE TABLE product_media"`, config);
+        if (!config.settings.syncImages) {
+            this.configureTasks.push(
+                {
+                    title: "Emptying media tables",
+                    task: async (): Promise<void> => {
+                        // Product media
+                        await localhostShopwareRootMysqlExec('TRUNCATE TABLE product_media', config);
 
-                    // Theme media
-                    await localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "TRUNCATE TABLE theme_media"`, config);
+                        // Theme media
+                        await localhostShopwareRootMysqlExec('TRUNCATE TABLE theme_media', config);
+                    }
                 }
-            }
-        );
+            );
+        }
 
         this.configureTasks.push(
             {

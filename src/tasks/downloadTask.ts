@@ -48,6 +48,7 @@ class DownloadTask {
                         if (result) {
                             let serverValues = result.stdout.split("\n");
                             config.serverVariables.shopwareRoot = serverValues[0];
+
                             // Get PHP path
                             config.serverVariables.externalPhpPath = serverValues[1];
                         }

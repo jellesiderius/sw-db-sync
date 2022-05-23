@@ -17,6 +17,8 @@ class ConfigurationQuestions {
                 config.settings.strip = answers.strip;
                 // Set import setting for Shopware
                 config.settings.import = answers.import;
+                // Set image import setting for Shopware
+                config.settings.syncImages = answers.syncImages;
                 // Change location of database download depending on answer
                 if (config.settings.import == 'yes') {
                     config.customConfig.localDatabaseFolderLocation = config.settings.currentFolder;
@@ -50,6 +52,18 @@ class ConfigurationQuestions {
                         return false;
                     },
                 });
+                if (config.settings.rsyncInstalled) {
+                    this.questionsOne.push({
+                        type: 'list',
+                        name: 'syncImages',
+                        default: 'yes',
+                        message: 'Synchronize images from public/media?',
+                        choices: ['yes', 'no'],
+                        validate: (input) => {
+                            return false;
+                        },
+                    });
+                }
             }
         });
     }

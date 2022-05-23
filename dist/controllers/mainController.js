@@ -32,7 +32,6 @@ class MainController {
                 'strip': '',
                 'syncImages': false,
                 'rsyncInstalled': false,
-                'elasticSearchUsed': false,
                 'import': 'no',
                 'currentFolderIsShopware': false,
             },

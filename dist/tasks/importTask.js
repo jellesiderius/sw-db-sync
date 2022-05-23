@@ -51,6 +51,17 @@ class ImportTask {
                     yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} --force < ${config.settings.databaseFullPath}/${config.settings.databaseFileName}.sql`, config, true);
                 })
             });
+            if (config.settings.syncImages) {
+                this.importTasks.push({
+                    title: 'Synchronizing public/media & public/thumbnail',
+                    task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
+                        // Sync media
+                        yield console_1.localhostShopwareRootExec(`rsync -avz -e "ssh -p ${config.databases.databaseData.port}" ${config.databases.databaseData.username}@${config.databases.databaseData.server}:${config.serverVariables.shopwareRoot}/public/media/* public/media/`, config, true);
+                        // Sync thumbnail
+                        yield console_1.localhostShopwareRootExec(`rsync -avz -e "ssh -p ${config.databases.databaseData.port}" ${config.databases.databaseData.username}@${config.databases.databaseData.server}:${config.serverVariables.shopwareRoot}/public/thumbnail/* public/thumbnail/`, config, true);
+                    })
+                });
+            }
             this.importTasks.push({
                 title: 'Cleaning up',
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {

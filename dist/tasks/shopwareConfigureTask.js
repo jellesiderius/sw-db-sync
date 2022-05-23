@@ -21,24 +21,26 @@ class ShopwareConfigureTask {
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
                     yield console_1.localhostShopwareRootExec(`bin/console sales-channel:update:domain ${config.localhost.domainUrl}`, config);
                     if (config.localhost.https) {
-                        yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "UPDATE sales_channel_domain SET url = REPLACE(url,'http://', 'https://');"`, config);
+                        yield console_1.localhostShopwareRootMysqlExec("UPDATE sales_channel_domain SET url = REPLACE(url,'http://', 'https://')", config);
                         config.finalMessages.importDomain = `https://${config.localhost.domainUrl}`;
                     }
                     else {
-                        yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "UPDATE sales_channel_domain SET url = REPLACE(url,'https://', 'http://');"`, config);
+                        yield console_1.localhostShopwareRootMysqlExec("UPDATE sales_channel_domain SET url = REPLACE(url,'https://', 'http://')", config);
                         config.finalMessages.importDomain = `http://${config.localhost.domainUrl}`;
                     }
                 })
             });
-            this.configureTasks.push({
-                title: "Emptying media tables",
-                task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
-                    // Product media
-                    yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "TRUNCATE TABLE product_media"`, config);
-                    // Theme media
-                    yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "TRUNCATE TABLE theme_media"`, config);
-                })
-            });
+            if (!config.settings.syncImages) {
+                this.configureTasks.push({
+                    title: "Emptying media tables",
+                    task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
+                        // Product media
+                        yield console_1.localhostShopwareRootMysqlExec('TRUNCATE TABLE product_media', config);
+                        // Theme media
+                        yield console_1.localhostShopwareRootMysqlExec('TRUNCATE TABLE theme_media', config);
+                    })
+                });
+            }
             this.configureTasks.push({
                 title: "Compiling theme",
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {

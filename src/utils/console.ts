@@ -110,6 +110,10 @@ const localhostRsyncDownloadCommand = (source: string, destination: string, conf
     return consoleCommand(totalRsyncCommand, false)
 }
 
+const localhostShopwareRootMysqlExec = (command: string, config: any) => {
+    return localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "${command}"`, config);
+}
+
 const extractDatabaseDetails = (string: string) => {
     var details = string,
         details = details.replace('DATABASE_URL="mysql', '').replace('//', '').replace('"', '').replace('@', ':').replace('/', ':'),
@@ -141,5 +145,6 @@ export {
     sshShopwareRootFolderPhpCommand,
     localhostShopwareRootExec,
     localhostRsyncDownloadCommand,
-    extractDatabaseDetails
+    extractDatabaseDetails,
+    localhostShopwareRootMysqlExec
 }
