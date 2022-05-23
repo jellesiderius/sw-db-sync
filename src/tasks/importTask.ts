@@ -71,7 +71,7 @@ class ImportTask {
             }
         );
 
-        if (config.settings.syncImages) {
+        if (config.settings.syncImages == 'yes') {
             this.importTasks.push(
                 {
                     title: 'Synchronizing public/media & public/thumbnail',

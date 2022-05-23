@@ -28,7 +28,7 @@ class MainController {
             'databaseFileName': '',
             'databaseFullPath': '',
             'strip': '',
-            'syncImages': false,
+            'syncImages': 'no',
             'rsyncInstalled': false,
             'import': 'no',
             'currentFolderIsShopware': false,

@@ -51,7 +51,7 @@ class ImportTask {
                     yield console_1.localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} --force < ${config.settings.databaseFullPath}/${config.settings.databaseFileName}.sql`, config, true);
                 })
             });
-            if (config.settings.syncImages) {
+            if (config.settings.syncImages == 'yes') {
                 this.importTasks.push({
                     title: 'Synchronizing public/media & public/thumbnail',
                     task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {

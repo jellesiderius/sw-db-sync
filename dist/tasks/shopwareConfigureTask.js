@@ -30,7 +30,7 @@ class ShopwareConfigureTask {
                     }
                 })
             });
-            if (!config.settings.syncImages) {
+            if (config.settings.syncImages == 'no') {
                 this.configureTasks.push({
                     title: "Emptying media tables",
                     task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
