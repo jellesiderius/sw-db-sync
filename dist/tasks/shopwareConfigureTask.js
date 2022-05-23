@@ -42,6 +42,12 @@ class ShopwareConfigureTask {
                 });
             }
             this.configureTasks.push({
+                title: "Refreshing plugins",
+                task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
+                    yield console_1.localhostShopwareRootExec(`bin/console plugin:refresh`, config);
+                })
+            });
+            this.configureTasks.push({
                 title: "Compiling theme",
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
                     yield console_1.localhostShopwareRootExec(`bin/console theme:compile`, config);

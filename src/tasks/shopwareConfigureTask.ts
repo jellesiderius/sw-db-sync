@@ -56,6 +56,15 @@ class ShopwareConfigureTask {
 
         this.configureTasks.push(
             {
+                title: "Refreshing plugins",
+                task: async (): Promise<void> => {
+                    await localhostShopwareRootExec(`bin/console plugin:refresh`, config);
+                }
+            }
+        );
+
+        this.configureTasks.push(
+            {
                 title: "Compiling theme",
                 task: async (): Promise<void> => {
                     await localhostShopwareRootExec(`bin/console theme:compile`, config);
