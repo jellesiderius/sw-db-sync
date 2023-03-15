@@ -77,10 +77,10 @@ class ImportTask {
                     title: 'Synchronizing public/media & public/thumbnail',
                     task: async (): Promise<void> => {
                         // Sync media
-                        await localhostShopwareRootExec(`rsync -avz -e "ssh -p ${config.databases.databaseData.port}" ${config.databases.databaseData.username}@${config.databases.databaseData.server}:${config.serverVariables.shopwareRoot}/public/media/* public/media/`, config, true);
+                        await localhostShopwareRootExec(`rsync -avz -e "ssh -p ${config.databases.databaseData.port}" ${config.databases.databaseData.username}@${config.databases.databaseData.server}:${config.serverVariables.shopwareRoot}/public/media/* public/media/`, config, true, false, true);
 
                         // Sync thumbnail
-                        await localhostShopwareRootExec(`rsync -avz -e "ssh -p ${config.databases.databaseData.port}" ${config.databases.databaseData.username}@${config.databases.databaseData.server}:${config.serverVariables.shopwareRoot}/public/thumbnail/* public/thumbnail/`, config, true);
+                        await localhostShopwareRootExec(`rsync -avz -e "ssh -p ${config.databases.databaseData.port}" ${config.databases.databaseData.username}@${config.databases.databaseData.server}:${config.serverVariables.shopwareRoot}/public/thumbnail/* public/thumbnail/`, config, true, false, true);
                     }
                 }
             );

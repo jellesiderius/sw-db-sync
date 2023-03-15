@@ -6,6 +6,7 @@ const inquirer_1 = tslib_1.__importDefault(require("inquirer"));
 const databasesModel_1 = tslib_1.__importDefault(require("../models/databasesModel"));
 const path = tslib_1.__importStar(require("path"));
 const fs = tslib_1.__importStar(require("fs"));
+const command_exists_1 = tslib_1.__importDefault(require("command-exists"));
 class SelectDatabaseQuestion {
     constructor() {
         this.databasesModel = new databasesModel_1.default();
@@ -33,10 +34,16 @@ class SelectDatabaseQuestion {
                 // Check if current is shopware. This will be used to determine if we can import Shopware
                 if (fs.existsSync(config.settings.currentFolder + '/vendor/shopware/core') || fs.existsSync(config.settings.currentFolder + '/public/index.php')) {
                     config.settings.currentFolderIsShopware = true;
+                    if (fs.existsSync(config.settings.currentFolder + '/.ddev/config.yaml')) {
+                        // Check if ddev is installed locally
+                        (0, command_exists_1.default)('ddev').then((command) => {
+                            config.settings.isDdevActive = true;
+                        }).catch(function () { });
+                    }
                 }
             })
                 .catch((err) => {
-                console_1.error(`Something went wrong: ${err.message}`);
+                (0, console_1.error)(`Something went wrong: ${err.message}`);
             });
         });
         // Add questions

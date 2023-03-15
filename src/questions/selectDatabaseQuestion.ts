@@ -3,6 +3,7 @@ import inquirer from 'inquirer'
 import DatabasesModel from "../models/databasesModel";
 import * as path from 'path'
 import * as fs from 'fs'
+import CommandExists from "command-exists";
 
 class SelectDatabaseQuestion {
     private databasesModel = new DatabasesModel();
@@ -37,6 +38,13 @@ class SelectDatabaseQuestion {
             // Check if current is shopware. This will be used to determine if we can import Shopware
             if (fs.existsSync(config.settings.currentFolder + '/vendor/shopware/core') || fs.existsSync(config.settings.currentFolder + '/public/index.php')) {
                 config.settings.currentFolderIsShopware = true;
+
+                if (fs.existsSync(config.settings.currentFolder + '/.ddev/config.yaml')) {
+                    // Check if ddev is installed locally
+                    CommandExists('ddev').then((command) => {
+                        config.settings.isDdevActive = true;
+                    }).catch(function () {});
+                }
             }
         })
         .catch((err: { message: any; }) => {

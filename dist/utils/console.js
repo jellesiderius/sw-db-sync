@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.localhostShopwareRootMysqlExec = exports.extractDatabaseDetails = exports.localhostRsyncDownloadCommand = exports.localhostShopwareRootExec = exports.sshShopwareRootFolderPhpCommand = exports.sshNavigateToShopwareRootCommand = exports.consoleCommand = exports.clearConsole = exports.emptyLine = exports.url = exports.error = exports.warning = exports.success = exports.info = exports.verbose = void 0;
+exports.localhostShopwareRootMysqlExec = exports.extractDatabaseDetails = exports.localhostRsyncDownloadCommand = exports.localhostShopwareRootExec = exports.sshNavigateToShopwareRootCommand = exports.consoleCommand = exports.clearConsole = exports.emptyLine = exports.url = exports.error = exports.warning = exports.success = exports.info = exports.verbose = void 0;
 const tslib_1 = require("tslib");
 const kleur_1 = tslib_1.__importDefault(require("kleur"));
 const readline = tslib_1.__importStar(require("readline"));
@@ -86,12 +86,13 @@ const sshNavigateToShopwareRootCommand = (command, config) => {
     }
 };
 exports.sshNavigateToShopwareRootCommand = sshNavigateToShopwareRootCommand;
-// Execute a PHP script in the root of shopware
-const sshShopwareRootFolderPhpCommand = (command, config) => {
-    return sshNavigateToShopwareRootCommand(config.serverVariables.externalPhpPath + ' ' + command, config);
-};
-exports.sshShopwareRootFolderPhpCommand = sshShopwareRootFolderPhpCommand;
-const localhostShopwareRootExec = (command, config, skipErrors = false) => {
+const localhostShopwareRootExec = (command, config, skipErrors = false, noExec = false, skipDdev = false) => {
+    if (config.settings.isDdevActive && !skipDdev) {
+        if (noExec) {
+            return consoleCommand(`cd ${config.settings.currentFolder}; ddev ${command};`, skipErrors);
+        }
+        return consoleCommand(`cd ${config.settings.currentFolder}; ddev exec ${command};`, skipErrors);
+    }
     return consoleCommand(`cd ${config.settings.currentFolder}; ${command};`, skipErrors);
 };
 exports.localhostShopwareRootExec = localhostShopwareRootExec;
@@ -106,12 +107,16 @@ const localhostRsyncDownloadCommand = (source, destination, config) => {
     return consoleCommand(totalRsyncCommand, false);
 };
 exports.localhostRsyncDownloadCommand = localhostRsyncDownloadCommand;
-const localhostShopwareRootMysqlExec = (command, config) => {
-    return localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "${command}"`, config);
+const localhostShopwareRootMysqlExec = (command, config, skipErrors = false) => {
+    let noExec = false;
+    if (config.settings.isDdevActive) {
+        noExec = true;
+    }
+    return localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "${command}"`, config, skipErrors, noExec);
 };
 exports.localhostShopwareRootMysqlExec = localhostShopwareRootMysqlExec;
 const extractDatabaseDetails = (string) => {
-    var details = string, details = details.replace('DATABASE_URL="mysql', '').replace('//', '').replace('"', '').replace('@', ':').replace('/', ':'), details = details.split(':'), details = details.filter((a) => a);
+    var details = string, details = details.replace('DATABASE_URL="mysql', '').replace('DATABASE_URL=mysql', '').replace('//', '').replace('"', '').replace('@', ':').replace('/', ':'), details = details.split(':'), details = details.filter((a) => a);
     let detailsObject = {
         username: details[0].trim(),
         password: details[1].replace('$', '\\$').replace(/"/g, '\'').trim(),

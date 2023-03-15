@@ -87,12 +87,15 @@ const sshNavigateToShopwareRootCommand = (command: string, config: any) => {
     }
 }
 
-// Execute a PHP script in the root of shopware
-const sshShopwareRootFolderPhpCommand = (command: string, config: any) => {
-    return sshNavigateToShopwareRootCommand(config.serverVariables.externalPhpPath + ' ' + command, config);
-}
+const localhostShopwareRootExec = (command: string, config: any, skipErrors: boolean = false, noExec: boolean = false, skipDdev: boolean = false) => {
+    if (config.settings.isDdevActive && !skipDdev) {
+        if (noExec) {
+            return consoleCommand(`cd ${config.settings.currentFolder}; ddev ${command};`, skipErrors);
+        }
 
-const localhostShopwareRootExec = (command: string, config: any, skipErrors: boolean = false) => {
+        return consoleCommand(`cd ${config.settings.currentFolder}; ddev exec ${command};`, skipErrors);
+    }
+
     return consoleCommand(`cd ${config.settings.currentFolder}; ${command};`, skipErrors);
 }
 
@@ -110,15 +113,22 @@ const localhostRsyncDownloadCommand = (source: string, destination: string, conf
     return consoleCommand(totalRsyncCommand, false)
 }
 
-const localhostShopwareRootMysqlExec = (command: string, config: any) => {
-    return localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "${command}"`, config);
+const localhostShopwareRootMysqlExec = (command: string, config: any, skipErrors: boolean = false) => {
+    let noExec = false;
+
+    if (config.settings.isDdevActive) {
+        noExec = true;
+    }
+
+    return localhostShopwareRootExec(`mysql -u ${config.localhost.username} --password=${config.localhost.password} ${config.localhost.database} -e "${command}"`, config, skipErrors, noExec);
 }
 
 const extractDatabaseDetails = (string: string) => {
     var details = string,
-        details = details.replace('DATABASE_URL="mysql', '').replace('//', '').replace('"', '').replace('@', ':').replace('/', ':'),
+        details = details.replace('DATABASE_URL="mysql', '').replace('DATABASE_URL=mysql', '').replace('//', '').replace('"', '').replace('@', ':').replace('/', ':'),
         details = details.split(':'),
         details = details.filter((a) => a);
+
 
     let detailsObject = {
         username: details[0].trim(),
@@ -142,7 +152,6 @@ export {
     clearConsole,
     consoleCommand,
     sshNavigateToShopwareRootCommand,
-    sshShopwareRootFolderPhpCommand,
     localhostShopwareRootExec,
     localhostRsyncDownloadCommand,
     extractDatabaseDetails,

@@ -34,7 +34,7 @@ class DownloadTask {
                 title: 'Retrieving server settings',
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
                     // Retrieve settings from server to use
-                    yield ssh.execCommand(console_1.sshNavigateToShopwareRootCommand('pwd; which php;', config)).then((result) => {
+                    yield ssh.execCommand((0, console_1.sshNavigateToShopwareRootCommand)('pwd; which php;', config)).then((result) => {
                         if (result) {
                             let serverValues = result.stdout.split("\n");
                             config.serverVariables.shopwareRoot = serverValues[0];
@@ -51,7 +51,7 @@ class DownloadTask {
             this.downloadTasks.push({
                 title: 'Downloading Shopware6 DB Dump File to server',
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
-                    yield ssh.execCommand(console_1.sshNavigateToShopwareRootCommand('curl -O https://raw.githubusercontent.com/jellesiderius/shopware6-database-dump/main/shopware6-database-dump.sh', config));
+                    yield ssh.execCommand((0, console_1.sshNavigateToShopwareRootCommand)('curl -O https://raw.githubusercontent.com/jellesiderius/shopware6-database-dump/main/shopware6-database-dump.sh', config));
                 })
             });
             this.downloadTasks.push({
@@ -59,9 +59,9 @@ class DownloadTask {
                 task: () => tslib_1.__awaiter(this, void 0, void 0, function* () {
                     var username = '', password = '', host = '', port = '', database = '';
                     // Retrieve database name
-                    yield ssh.execCommand(console_1.sshNavigateToShopwareRootCommand('cat .env | grep "DATABASE_URL="', config)).then((result) => {
+                    yield ssh.execCommand((0, console_1.sshNavigateToShopwareRootCommand)('cat .env | grep "DATABASE_URL="', config)).then((result) => {
                         if (result) {
-                            var resultValues = result.stdout, databaseDetails = console_1.extractDatabaseDetails(resultValues);
+                            var resultValues = result.stdout, databaseDetails = (0, console_1.extractDatabaseDetails)(resultValues);
                             username = databaseDetails.username;
                             password = databaseDetails.password;
                             host = databaseDetails.host;
@@ -71,11 +71,11 @@ class DownloadTask {
                         }
                     });
                     // Dump database
-                    var dumpCommand = `sh shopware6-database-dump.sh -d ${database} -u ${username} -pa ${password} --host ${host} -p ${port} --gdpr`;
+                    var dumpCommand = `/bin/bash shopware6-database-dump.sh -d ${database} -u ${username} -pa ${password} --host ${host} -p ${port} --gdpr`;
                     if (config.settings.strip == 'full') {
-                        dumpCommand = `sh shopware6-database-dump.sh -d ${database} -u ${username} -pa ${password} --host ${host} -p ${port}`;
+                        dumpCommand = `/bin/bash shopware6-database-dump.sh -d ${database} -u ${username} -pa ${password} --host ${host} -p ${port}`;
                     }
-                    yield ssh.execCommand(console_1.sshNavigateToShopwareRootCommand(`${dumpCommand}; mv ${config.settings.databaseFileName}.sql ~`, config));
+                    yield ssh.execCommand((0, console_1.sshNavigateToShopwareRootCommand)(`${dumpCommand}; mv ${config.settings.databaseFileName}.sql ~`, config));
                 })
             });
             this.downloadTasks.push({
@@ -85,7 +85,7 @@ class DownloadTask {
                     let localDatabaseFolderLocation = config.customConfig.localDatabaseFolderLocation;
                     let localDatabaseLocation = localDatabaseFolderLocation + `/${config.settings.databaseFileName}.sql`;
                     if (config.settings.rsyncInstalled) {
-                        yield console_1.localhostRsyncDownloadCommand(`~/${config.settings.databaseFileName}.sql`, `${localDatabaseFolderLocation}`, config);
+                        yield (0, console_1.localhostRsyncDownloadCommand)(`~/${config.settings.databaseFileName}.sql`, `${localDatabaseFolderLocation}`, config);
                     }
                     else {
                         yield ssh.getFile(localDatabaseLocation, config.settings.databaseFileName + '.sql').then(function (Contents) {
@@ -104,7 +104,7 @@ class DownloadTask {
                     // Remove the Shopware 6 database file on the server
                     yield ssh.execCommand(`rm ${config.settings.databaseFileName}.sql`);
                     // Remove database dump file and close connection to SSH
-                    yield ssh.execCommand(console_1.sshNavigateToShopwareRootCommand('rm shopware6-database-dump.sh', config));
+                    yield ssh.execCommand((0, console_1.sshNavigateToShopwareRootCommand)('rm shopware6-database-dump.sh', config));
                     // Close the SSH connection
                     yield ssh.dispose();
                 })

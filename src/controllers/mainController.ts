@@ -32,6 +32,7 @@ class MainController {
             'rsyncInstalled': false,
             'import': 'no',
             'currentFolderIsShopware': false,
+            'isDdevActive': false
         },
         'localhost': {
             'username': '',

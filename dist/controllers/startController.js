@@ -25,11 +25,11 @@ class StartController extends mainController_1.default {
                 yield this.list.run();
                 // Show final message when done with all tasks
                 if (this.config.finalMessages.importDomain.length > 0) {
-                    console_1.success(`Shopware is successfully imported to localhost. ${this.config.finalMessages.importDomain} is now available.`);
-                    console_1.info(`You can log in to the Shopware backend with username: ${settings_json_1.default.shopwareBackend.adminUsername} and password: ${settings_json_1.default.shopwareBackend.adminPassword}`);
+                    (0, console_1.success)(`Shopware is successfully imported to localhost. ${this.config.finalMessages.importDomain} is now available.`);
+                    (0, console_1.info)(`You can log in to the Shopware backend with username: ${settings_json_1.default.shopwareBackend.adminUsername} and password: ${settings_json_1.default.shopwareBackend.adminPassword}`);
                 }
                 else if (this.config.finalMessages.shopwareDatabaseLocation.length > 0) {
-                    console_1.success(`Downloaded Shopware database to: ${this.config.finalMessages.shopwareDatabaseLocation}`);
+                    (0, console_1.success)(`Downloaded Shopware database to: ${this.config.finalMessages.shopwareDatabaseLocation}`);
                 }
                 process.exit();
             }
@@ -40,7 +40,7 @@ class StartController extends mainController_1.default {
         // Ask questions to user
         this.askQuestions = () => tslib_1.__awaiter(this, void 0, void 0, function* () {
             // Clear the console
-            console_1.clearConsole();
+            (0, console_1.clearConsole)();
             // Ask question about database type
             let databaseTypeQuestion = yield new databaseTypeQuestion_1.default();
             yield databaseTypeQuestion.configure(this.config);
@@ -51,7 +51,7 @@ class StartController extends mainController_1.default {
             let configurationQuestions = yield new configurationQuestions_1.default();
             yield configurationQuestions.configure(this.config);
             // Clear the console
-            console_1.clearConsole();
+            (0, console_1.clearConsole)();
         });
         // Configure task list
         this.prepareTasks = () => tslib_1.__awaiter(this, void 0, void 0, function* () {
