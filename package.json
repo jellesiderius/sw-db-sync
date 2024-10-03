@@ -1,6 +1,6 @@
 {
   "name": "sw-db-sync",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "Database synchronizer for Shopware 6",
   "author": {
     "name": "Jelle Siderius"
@@ -39,6 +39,7 @@
     "listr2": "^3.13.5",
     "node-fetch": "^2.6.6",
     "node-ssh": "^11.1.1",
-    "shelljs": "^0.8.5"
+    "shelljs": "^0.8.5",
+    "tslib": "^2.7.0"
   }
 }
